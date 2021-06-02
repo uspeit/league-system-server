@@ -1,2 +1,2 @@
 node_modules
-data/store.db
+src/js/data/store.db

@@ -4,7 +4,11 @@
   "description": "League management system",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "export NODE_ENV=dev && node src/js/index.js",
+    "test": "export NODE_ENV=test && jest",
+    "test:unit": "export NODE_ENV=test && jest --testPathPattern=src/tests/unit-tests",
+    "test:integration": "export NODE_ENV=test && jest --testPathPattern=src/tests/integration",
+    "test:acceptance": "export NODE_ENV=test && jest --testPathPattern=src/tests/acceptance"
   },
   "repository": {
     "type": "git",
@@ -17,5 +21,9 @@
     "sequelize": "^6.6.2",
     "sqlite3": "^4.2.0"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.14.0",
+    "jest": "^27.0.3"
+  }
 }

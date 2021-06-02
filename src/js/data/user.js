@@ -7,6 +7,12 @@ const UserData = sequelize.define("user", {
     email: DataTypes.TEXT
 });
 
-await UserData.sync({ force: true });
+if (process.env.NODE_ENV === 'dev') {
+    async () => {
+        await UserData.sync({
+            force: true
+        });
+    }
+}
 
 export default UserData
