@@ -7,17 +7,31 @@ export default class User {
         this.email = email;
     }
 
-    async validate() {
-        const users = await UserData.findAll({
+    static getById(userId, callback) {
+        UserData.findOne({
             where: {
-                username: this.username,
-                password: this.password
+                userId: userId
             }
-          })
-        console.log(users)
-        return users.length > 0
+        }).then(function (user) {
+            callback(null, user)
+        })
     }
 
+    static async login(username, password) {
+        const user = await UserData.findOne({
+            where: {
+                username: username,
+                password: password
+            }
+        })
+        console.log(user)
+        if (user !== null)
+            return {
+                sub: user.userId
+            }
+        else
+            return null
+    }
 
     async save() {
         let userData = await UserData.create(this);
@@ -27,8 +41,10 @@ export default class User {
     static async getAll() {
         const users = await UserData.findAll()
         console.log(users)
-        return users.map(function (user) {
-            return new User(user.username, user.password, user.email)
-        })
+        return users.map(fromData)
+    }
+
+    static fromData(userData) {
+        return new User(userData.username, userData.password, userData.email)
     }
 }

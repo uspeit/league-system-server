@@ -2,17 +2,18 @@ import DataTypes from 'sequelize';
 import sequelize from './db.js'
 
 const UserData = sequelize.define("user", {
+    userId: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true // Automatically gets converted to SERIAL for postgres
+    },
     username: DataTypes.TEXT,
     password: DataTypes.TEXT,
     email: DataTypes.TEXT
 });
 
-if (process.env.NODE_ENV === 'dev') {
-    async () => {
-        await UserData.sync({
-            force: true
-        });
-    }
-}
+await UserData.sync({
+    // force: true
+});
 
 export default UserData
