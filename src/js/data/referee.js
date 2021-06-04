@@ -1,6 +1,8 @@
 import DataTypes from 'sequelize';
 import sequelize from './db.js'
 
+const Op = DataTypes.Sequelize.Op;
+
 const RefereeData = sequelize.define("referee", {
     first_name: DataTypes.TEXT,
     last_name: DataTypes.TEXT,
@@ -10,7 +12,7 @@ const RefereeData = sequelize.define("referee", {
 });
 
 await RefereeData.sync({
-    // force: true
+    force: true
 });
 
 export default RefereeData
