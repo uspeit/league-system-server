@@ -15,7 +15,8 @@ beforeEach(async () => {
     let entry = await UserData.create({
         username: 'test',
         password: 'qwe123',
-        email: 'test@mail.com'
+        email: 'test@mail.com',
+        role: 'player'
     })
 
     await entry.save();
@@ -23,7 +24,8 @@ beforeEach(async () => {
     entry = await UserData.create({
         username: 'test2',
         password: '123qwe',
-        email: 'test2@mail.com'
+        email: 'test2@mail.com',
+        role: 'player'
     })
 
     await entry.save();

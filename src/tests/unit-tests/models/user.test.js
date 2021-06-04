@@ -15,7 +15,8 @@ beforeEach(async () => {
     let entry = await UserData.create({
         username: 'test',
         password: 'qwe123',
-        email: 'test@mail.com'
+        email: 'test@mail.com',
+        role: 'referee'
     })
 
     await entry.save();
@@ -23,7 +24,8 @@ beforeEach(async () => {
     entry = await UserData.create({
         username: 'test2',
         password: '123qwe',
-        email: 'test2@mail.com'
+        email: 'test2@mail.com',
+        role: 'player'
     })
 
     await entry.save();
@@ -39,15 +41,15 @@ test('User - Register', async () => {
     expect(user)
         .toBe(null)
 
-    let result = await User.register('test3', 'asdzxc', 'test3@mail.com')
+    let error = await User.register('test3', 'asdzxc', 'test3@mail.com', 'player')
     user = await UserData.findOne({
         where: {
             username: 'test3'
         }
     });
 
-    expect(result)
-        .toBe(true);
+    expect(error)
+        .toBe(null);
     expect(user)
         .not.toBe(null);
     expect(user.username)
@@ -58,25 +60,25 @@ test('User - Register', async () => {
         .toBe('test3@mail.com')
 
 
-    result = await User.register('test3', 'asdzxc', 'test3@mail.com');
-    expect(result)
-        .toBe(false);
+    error = await User.register('test3', 'asdzxc', 'test3@mail.com', 'player');
+    expect(error)
+        .not.toBe(null);
 
-    result = await User.register('test2', 'asdzxc', 'aa@mail.com');
-    expect(result)
-        .toBe(false);
+    error = await User.register('test2', 'asdzxc', 'aa@mail.com', 'player');
+    expect(error)
+        .not.toBe(null);
 
-    result = await User.register('test', 'asdzxc', 'bb@mail.com');
-    expect(result)
-        .toBe(false);
+    error = await User.register('test', 'asdzxc', 'bb@mail.com', 'player');
+    expect(error)
+        .not.toBe(null);
 
-    result = await User.register('aaaaaa', 'asdzxc', 'test@mail.com');
-    expect(result)
-        .toBe(false);
+    error = await User.register('aaaaaa', 'asdzxc', 'test@mail.com', 'player');
+    expect(error)
+        .not.toBe(null);
 
-    result = await User.register('bbbbbbb', 'asdzxc', 'test2@mail.com');
-    expect(result)
-        .toBe(false);
+    error = await User.register('bbbbbbb', 'asdzxc', 'test2@mail.com', 'player');
+    expect(error)
+        .not.toBe(null);
 });
 
 // User - Login
