@@ -32,8 +32,8 @@ router.post('/signup', async function (req, res) {
     if (!req.body.username || !req.body.password || !req.body.email)
         res.status(400).send()
 
-    let user = new User(req.body.username, req.body.password, req.body.email);
-    await user.save()
+    // TODO: Check register status
+    User.register(req.body.username, req.body.password, req.body.email)
 
     res.status(200).send('Success');
 })

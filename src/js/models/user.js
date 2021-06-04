@@ -7,6 +7,13 @@ export default class User {
         this.email = email;
     }
 
+    // Methods
+    async save() {
+        let userData = await UserData.create(this);
+        await userData.save();
+    }
+
+    // Static methods
     static getById(userId, callback) {
         UserData.findOne({
             where: {
@@ -15,6 +22,11 @@ export default class User {
         }).then(function (user) {
             callback(null, user)
         })
+    }
+
+    static register(username, password, email) {
+        let user = new User(username, password, email);
+        await user.save()
     }
 
     static async login(username, password) {
@@ -31,11 +43,6 @@ export default class User {
             }
         else
             return null
-    }
-
-    async save() {
-        let userData = await UserData.create(this);
-        await userData.save();
     }
 
     static async getAll() {
