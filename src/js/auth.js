@@ -13,7 +13,7 @@ opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = privateKey;
 
 passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-    User.getById(jwt_payload.sub, function(err, user) {
+    User.getById(jwt_payload.sub, function(user, err) {
         if (err) {
             return done(err, false);
         }

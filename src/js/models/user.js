@@ -1,4 +1,7 @@
-import UserData from '../data/user.js'
+import {
+    UserData,
+    checkUserCredentials
+} from '../data/user.js';
 
 export default class User {
     constructor(username, password, email) {
@@ -7,14 +10,27 @@ export default class User {
         this.email = email;
     }
 
+    // Methods
+
+    // Static methods
     static getById(userId, callback) {
         UserData.findOne({
             where: {
                 userId: userId
             }
         }).then(function (user) {
-            callback(null, user)
+            callback(user, null)
         })
+    }
+
+    static async register(username, password, email) {
+        if (await checkUserCredentials(username, email))
+            return false;
+
+        let user = new User(username, password, email);
+        let userData = await UserData.create(user);
+        await userData.save();
+        return true;
     }
 
     static async login(username, password) {
@@ -33,11 +49,7 @@ export default class User {
             return null
     }
 
-    async save() {
-        let userData = await UserData.create(this);
-        await userData.save();
-    }
-
+    // Static helper methods
     static async getAll() {
         const users = await UserData.findAll()
         console.log(users)
