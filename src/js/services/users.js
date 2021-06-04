@@ -33,7 +33,7 @@ router.post('/signup', async function (req, res) {
         res.status(400).send()
 
     // TODO: Check register status
-    User.register(req.body.username, req.body.password, req.body.email)
+    await User.register(req.body.username, req.body.password, req.body.email)
 
     res.status(200).send('Success');
 })
