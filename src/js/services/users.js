@@ -29,13 +29,25 @@ router.post('/login', async function (req, res) {
 
 // Sign up route
 router.post('/signup', async function (req, res) {
-    if (!req.body.username || !req.body.password || !req.body.email)
-        res.status(400).send()
+    if (req.body.masterPassword != '345') // Require password "345" as master password for easy management
+        res.status(400).send({
+            err: 'Unauthorized'
+        })
 
-    // TODO: Check register status
-    await User.register(req.body.username, req.body.password, req.body.email)
+    if (!req.body.username || !req.body.password || !req.body.email || !req.body.role)
+        res.status(400).send({
+            err: 'Please enter username, password, email and role'
+        })
 
-    res.status(200).send('Success');
+    const err = await User.register(req.body.username, req.body.password, req.body.email, req.body.role)
+    if (err === null)
+        res.status(200).send({
+            err: null
+        });
+    else
+        res.status(400).send({
+            err: err
+        });
 })
 
 export default router

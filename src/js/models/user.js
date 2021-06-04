@@ -4,10 +4,11 @@ import {
 } from '../data/user.js';
 
 export default class User {
-    constructor(username, password, email) {
+    constructor(username, password, email, role) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.role = role;
     }
 
     // Methods
@@ -23,14 +24,17 @@ export default class User {
         })
     }
 
-    static async register(username, password, email) {
-        if (await checkUserCredentials(username, email))
-            return false;
+    static async register(username, password, email, role) {
+        if (!['user', 'player', 'referee', 'coach', 'manager', 'representative'].includes(role))
+            return 'Please provide a role for the user';
 
-        let user = new User(username, password, email);
+        if (await checkUserCredentials(username, email))
+            return 'Credentials aleady in use';
+
+        let user = new User(username, password, email, role);
         let userData = await UserData.create(user);
         await userData.save();
-        return true;
+        return null;
     }
 
     static async login(username, password) {
