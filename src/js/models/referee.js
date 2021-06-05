@@ -2,53 +2,65 @@ import RefereeData from '../data/referee.js'
 //import GameData from '../data/game.js'
 
 export default class Referee {
-    constructor(first_name,last_name, id, phone,email) {
+    constructor(first_name,last_name,idNum, phone, email) {
         this.first_name = first_name;
         this.last_name=last_name;
-        this.idNum = id;
+        this.idNum = idNum;
         this.phone=phone;
         this.email = email;
     }
 
-    static getById(id, callback) {
-        RefereeData.findOne({
+    static async getById(idNum) {
+        const referee= await RefereeData.findOne({
             where: {
-                id: id
+                idNum: idNum
             }
-        }).then(function (referee) {
-            callback(referee,null)
         })
+        //console.log(referee)
+        if(referee!==null){
+            return{
+                referee
+            }
+        }
+        else{
+            return null
+        }
     }
-    static async updateData(first_name,last_name,id,phone,email){
-        if(first_name!==null){
-            this.first_name=first_name;
-        }
-        if(last_name!==null){
-            this.last_name=last_name;
-        }
-        if(id!==null){
-            this.id=id;
-        }
-        if(phone!==null){
-            this.phone=phone;
-        }
-        if(email!==null){
-            this.email=email;
-        }
-        await self.save();
+
+    static async updateData(first_name,last_name,idNum,phone,email) {
+        return await RefereeData
+            .findOne({ where: {idNum:idNum} })
+            .then(function(referee) {
+                // update
+                if(referee){
+                    if(first_name!==null){
+                        referee.first_name=first_name;
+                    }
+                    if(last_name!==null){
+                        referee.last_name=last_name;
+                    }
+                    if(idNum!==null){
+                        referee.idNum=idNum;
+                    }
+                    if(phone!==null){
+                        referee.phone=phone;
+                    }
+                    if(email!==null){
+                        referee.email=email;
+                    }
+                    referee.save()
+                }
+            })
     }
-    //async save() {
-    //    let refereeData = await RefereeData.create(this);
-    //    await refereeData.save();
-    //}
+
 
     static async getMyGames(){
         let myGames=[]
         const games=await GameData.findAll()
         games.forEach(game => {
-            if(game.referee.id==this.id){
+            if(game.referee.idNum===this.idNum){
                 myGames.push(game);
-            }            
+            }
         });
         return myGames;
     }
