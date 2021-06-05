@@ -1,11 +1,11 @@
 import RefereeData from '../data/referee.js'
-import GameData from '../data/game.js'
+//import GameData from '../data/game.js'
 
 export default class Referee {
     constructor(first_name,last_name, id, phone,email) {
         this.first_name = first_name;
         this.last_name=last_name;
-        this.id = id;
+        this.idNum = id;
         this.phone=phone;
         this.email = email;
     }
@@ -67,6 +67,11 @@ export default class Referee {
     static async updateEventsGame(game,event){
         
     }
+    static async addReferee(first_name,last_name,idNum,phone,email){
+        const referee=new Referee(first_name,last_name,idNum,phone,email)
+        let refereeData = await RefereeData.create(referee);
+        await refereeData.save()
+    }   
 
     static fromData(refereeData) {
         return new Referee(refereeData.first_name,refereeData.last_name, refereeData.id,refereeData.phone ,refereeData.email)

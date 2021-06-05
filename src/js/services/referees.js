@@ -4,6 +4,7 @@ import User from '../models/user.js';
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import RefereeData from '../data/referee.js';
+import Referee from '../models/referee.js';
 
 const privateKey = fs.readFileSync('keys/private.pem');
 
@@ -16,15 +17,14 @@ const router = express.Router();
 //  });
 //})
 // Add referee route
-router.post('/addReferee', function (req, res) {
-  if(req.user.role == 'representative'){
-    if(!req.body.first_name || !req.body.last_name || !req.body.id || !req.body.phone || !req.body.email){
+
+router.post('/add', async function (req, res) {
+  if(req.user.role === 'representative'){
+    if(!req.body.first_name || !req.body.last_name || !req.body.idNum || !req.body.phone || !req.body.email){
       res.status(400).send("One or more data is missing")  
     }
     else{
-      const referee=new Referee(req.body.first_name,req.body.last_name,req.body.id,req.body.phone,req.body.email)
-      let refereeData = await RefereeData.create(user);
-      await referee.save()
+      await Referee.addReferee(req.body.first_name,req.body.last_name,req.body.idNum,req.body.phone,req.body.email)
       res.status(200).send("Success")
     }
   }
@@ -33,8 +33,8 @@ router.post('/addReferee', function (req, res) {
   }
 })
 
-router.post('/updateDataReferee',function (req,res) {
-  if(req.user.role=='representative'){
+router.post('/updateData',function (req,res) {
+  if(req.user.role==='representative'){
     if(!req.body.id){
       res.status(400).send("Please enter id referee.")
     }
