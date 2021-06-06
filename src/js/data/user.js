@@ -1,5 +1,4 @@
 import DataTypes from 'sequelize';
-import User from '../models/user.js';
 import sequelize from './db.js'
 const Op = DataTypes.Sequelize.Op;
 
