@@ -18,20 +18,24 @@ const RefereeData = sequelize.define("referee", {
 await RefereeData.sync({
     force: true
 });
-let refereeUser = await UserData.create({
-    username: 'aiman',
-    password: '123',
-    email: 'aiman@',
-    role: 'referee'
-})
-await refereeUser.save()
-let referee = await RefereeData.create({
+
+
+let referee1 = await RefereeData.create({
     first_name:'aiman',
     last_name:'saied',
     idNum:'12',
     phone:'054',
     email: 'aiman@'
 })
-await referee.save()
+await referee1.save()
+
+let referee2 = await RefereeData.create({
+    first_name:'moshe',
+    last_name:'levi',
+    idNum:'951',
+    phone:'123456',
+    email: 'moshe@'
+})
+await referee2.save()
 
 export default RefereeData

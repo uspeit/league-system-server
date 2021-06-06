@@ -1,10 +1,10 @@
 import express from 'express';
-import Refree from '../models/referee.js';
+import Referee from '../models/referee.js';
 import User from '../models/user.js';
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import RefereeData from '../data/referee.js';
-import Referee from '../models/referee.js';
+import Game from '../models/game.js';
 
 const privateKey = fs.readFileSync('keys/private.pem');
 
@@ -50,12 +50,12 @@ router.put('/updateData',async function (req,res) {
     }
   }
   else if(req.user.role==='referee'){
-    let referee=Referee.getById(req.user.id);
+    let referee=await Referee.getById(req.user.idUserNum);
     if(!referee){
       res.status(400).send("You can't update data referee")
     }
     else{
-      referee.updateData(req.body.first_name,req.body.last_name,req.body.id,req.body.phone,req.body.email)
+      Referee.updateData(req.body.first_name,req.body.last_name,req.user.idUserNum,req.body.phone,req.body.email)
       res.status(200).send("Success")
     }
   }
@@ -64,14 +64,14 @@ router.put('/updateData',async function (req,res) {
   }
 })
 
-router.get('/getRefereeGames',function (req,res) {
+router.get('/getRefereeGames',async function (req,res) {
   if(req.user.role=='referee'){
-    let referee=Referee.getById(req.user.id);
+    let referee=await Referee.getById(req.user.idUserNum);
     if(!referee){
       res.status(400).send("You can't get data referee")
     }
     else{
-      refereeGames=referee.getMyGames()
+      const refereeGames=await Referee.getMyGames(req.user.idUserNum)
       res.status(200).send(refereeGames)
     }
   }
@@ -80,16 +80,25 @@ router.get('/getRefereeGames',function (req,res) {
   }
 })
 
-router.post('addEventsGame',function (req,res){
+  
+router.post('/addEventsGame',async function (req,res){
   if(req.user.role=='referee'){
-    let referee=Referee.getById(req.user.id);
+    let referee=await Referee.getById(req.user.idUserNum);
     if(!referee){
       res.status(400).send("You can't get data referee")
     }
+    else if(req.body.gameId){
+      //let game=await Game.getById(req.body.gameId);
+      //res.status(200).send(game)
+      if(await Referee.addEventsGame(req.user.idUserNum,req.body.gameId,req.body.event)){
+        res.status(200).send("Success")
+      }
+      else{
+        res.status(400).send("Failed")
+      }
+    }
     else{
-      let game=game.getById(req.body.gameId);
-      referee.addEventsGame(game,req.body.event);
-      res.status(200).send("Success")
+      res.status(400).send("Please enter a game id")
     }
   }
   else{
@@ -97,16 +106,23 @@ router.post('addEventsGame',function (req,res){
   }
 })
 
-router.post('updateGame',function (req,res){
+router.post('/updateGame',async function (req,res){
   if(req.user.role=='referee'){
-    let referee=Referee.getById(req.user.id);
+    let referee=await Referee.getById(req.user.idUserNum);
     if(!referee){
       res.status(400).send("You can't get data referee")
     }
     else{
-      let game=game.getById(req.body.gameId);
-      if(referee.id==game.referee.id){
-        referee.updateEventsGame(game,req.body.event);
+      if(!req.body.row){
+        res.status(400).send('Please enter a row that you want to change')
+        return false;
+      }if(!req.body.event){
+        res.status(400).send('Please enter a new event')
+        return false
+      }
+      let game=await Game.updateEvent(req.body.gameId,req.user.idUserNum,req.body.event,req.body.row);
+      if(game){
+        await Referee.updateEventsGame(game,req.body.event);
         res.status(200).send("Success")
       }
       else{

@@ -1,5 +1,5 @@
 import RefereeData from '../data/referee.js'
-//import GameData from '../data/game.js'
+import GameData from '../data/games.js'
 
 export default class Referee {
     constructor(first_name,last_name,idNum, phone, email) {
@@ -33,19 +33,19 @@ export default class Referee {
             .then(function(referee) {
                 // update
                 if(referee){
-                    if(first_name!==null){
+                    if(first_name){
                         referee.first_name=first_name;
                     }
-                    if(last_name!==null){
+                    if(last_name){
                         referee.last_name=last_name;
                     }
-                    if(idNum!==null){
+                    if(idNum){
                         referee.idNum=idNum;
                     }
-                    if(phone!==null){
+                    if(phone){
                         referee.phone=phone;
                     }
-                    if(email!==null){
+                    if(email){
                         referee.email=email;
                     }
                     referee.save()
@@ -54,15 +54,11 @@ export default class Referee {
     }
 
 
-    static async getMyGames(){
-        let myGames=[]
-        const games=await GameData.findAll()
-        games.forEach(game => {
-            if(game.referee.idNum===this.idNum){
-                myGames.push(game);
-            }
+    static async getMyGames(idUserNum){
+        const games=await GameData.findAll({
+            where: {RefereeId:idUserNum}
         });
-        return myGames;
+        return games;
     }
 
     static async getAll() {
@@ -71,10 +67,19 @@ export default class Referee {
         return referees.map(fromData)
     }
 
-    static async addEventsGame(game,event){
-        if(event){
-            game.events.push(event)
+    static async addEventsGame(idNum,gameId,event){
+        if(event && gameId){
+            await GameData.update(
+                {'Events' : sequelize.fn('array_append', sequelize.col('Events'), event)},
+                {where: {
+                    gameId:gameId,
+                    RefereeId:idNum
+                    }
+                });
+            
+            return true
         }
+        return false
     }
     static async updateEventsGame(game,event){
         
