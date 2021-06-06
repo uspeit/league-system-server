@@ -1,4 +1,5 @@
 import DataTypes from 'sequelize';
+import User from '../models/user.js';
 import sequelize from './db.js'
 const Op = DataTypes.Sequelize.Op;
 
@@ -6,8 +7,9 @@ const UserData = sequelize.define("user", {
     userId: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true // Automatically gets converted to SERIAL for postgres
+        autoIncrement: true,
     },
+    idUserNum: DataTypes.TEXT,
     username: DataTypes.TEXT,
     password: DataTypes.TEXT,
     email: DataTypes.TEXT,
@@ -20,10 +22,20 @@ await UserData.sync({
 let user = await UserData.create({
     username: 'rep',
     password: '123',
+    idUserNum: '123',
     email: 'rep',
     role: 'representative'
 })
 await user.save()
+
+let refereeUser = await UserData.create({
+    username: 'aiman',
+    password: '12',
+    idUserNum: '12',
+    email: 'aiman@',
+    role: 'referee'
+})
+await refereeUser.save()
 
 /**
  * 

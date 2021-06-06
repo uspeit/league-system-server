@@ -4,9 +4,10 @@ import {
 } from '../data/user.js';
 
 export default class User {
-    constructor(username, password, email, role) {
+    constructor(username, password,idUserNum, email, role) {
         this.username = username;
         this.password = password;
+        this.idUserNum=idUserNum;
         this.email = email;
         this.role = role;
     }
@@ -31,7 +32,7 @@ export default class User {
         if (await checkUserCredentials(username, email))
             return 'Credentials aleady in use';
 
-        let user = new User(username, password, email, role);
+        let user = new User(username, password,idUserNum, email, role);
         let userData = await UserData.create(user);
         await userData.save();
         return null;

@@ -4,11 +4,11 @@
   "description": "League management system",
   "main": "index.js",
   "scripts": {
-    "start": "export NODE_ENV=dev && node src/js/index.js",
-    "test": "export NODE_ENV=test && node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "test:unit": "export NODE_ENV=test && node --experimental-vm-modules node_modules/jest/bin/jest.js --testPathPattern=src/tests/unit-tests",
-    "test:integration": "export NODE_ENV=test && node --experimental-vm-modules node_modules/jest/bin/jest.js --testPathPattern=src/tests/integration",
-    "test:acceptance": "export NODE_ENV=test && node --experimental-vm-modules node_modules/jest/bin/jest.js --testPathPattern=src/tests/acceptance"
+    "start": "set NODE_ENV=dev && node src/js/index.js",
+    "test": "set NODE_ENV=test && node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:unit": "set NODE_ENV=test && node --experimental-vm-modules node_modules/jest/bin/jest.js --testPathPattern=src/tests/unit-tests",
+    "test:integration": "set NODE_ENV=test && node --experimental-vm-modules node_modules/jest/bin/jest.js --testPathPattern=src/tests/integration",
+    "test:acceptance": "set NODE_ENV=test && node --experimental-vm-modules node_modules/jest/bin/jest.js --testPathPattern=src/tests/acceptance"
   },
   "repository": {
     "type": "git",
