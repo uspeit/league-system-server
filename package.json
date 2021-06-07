@@ -4,6 +4,7 @@
   "description": "League management system",
   "main": "index.js",
   "scripts": {
+    "init": "bash src/scripts/init.sh",
     "start": "set NODE_ENV=dev && node src/js/index.js",
     "test": "set NODE_ENV=test && node node_modules/jest/bin/jest.js",
     "test:unit": "set NODE_ENV=test && node node_modules/jest/bin/jest.js --testPathPattern=src/tests/unit-tests",
