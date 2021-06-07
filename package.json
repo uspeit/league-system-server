@@ -4,12 +4,12 @@
   "description": "League management system",
   "main": "src/js/server.js",
   "scripts": {
-    "start": "set NODE_ENV=dev && node src/js/server.js",
-    "test": "set NODE_ENV=test && node node_modules/jest/bin/jest.js",
-    "test:unit": "set NODE_ENV=test && node node_modules/jest/bin/jest.js --testPathPattern=src/tests/unit-tests",
-    "test:integration": "set NODE_ENV=test && node node_modules/jest/bin/jest.js --testPathPattern=src/tests/integration",
-    "test:acceptance": "set NODE_ENV=test && node node_modules/jest/bin/jest.js --testPathPattern=src/tests/acceptance",
-    "test:user": "set NODE_ENV=test && node node_modules/jest/bin/jest.js --testPathPattern=src/tests/unit-tests/.*/user.*\\.test\\.js"
+    "start": "NODE_ENV=dev node src/js/server.js",
+    "test": "NODE_ENV=test node node_modules/jest/bin/jest.js",
+    "test:unit": "NODE_ENV=test node node_modules/jest/bin/jest.js --testPathPattern=src/tests/unit-tests",
+    "test:integration": "NODE_ENV=test node node_modules/jest/bin/jest.js --testPathPattern=src/tests/integration",
+    "test:acceptance": "NODE_ENV=test node node_modules/jest/bin/jest.js --testPathPattern=src/tests/acceptance",
+    "test:user": "NODE_ENV=test node node_modules/jest/bin/jest.js --testPathPattern=src/tests/unit-tests/.*/user.*\\.test\\.js"
   },
   "repository": {
     "type": "git",

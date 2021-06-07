@@ -18,30 +18,32 @@ const GameData = sequelize.define("game", {
   Events: DataTypes.ARRAY(DataTypes.TEXT),
 });
 
-(async () => {
+export async function syncGames(addDefaults) {
   await GameData.sync({
-    // force: true,
+    force: true,
   });
 
-  let game1 = await GameData.create({
-    Date: new Date(2021, 6, 21, 15, 0),
-    Home_team: "Bnie Sakhnin",
-    Away_team: "Hapoel Beer Sheva",
-    Stadium: "Doha",
-    Result: "0:0",
-    Events: [],
-  });
-  await game1.save();
-  let game2 = await GameData.create({
-    Date: new Date(2021, 6, 28, 19, 0),
-    Home_team: "Hapoel Beer Sheva",
-    Away_team: "Hapoel Tel aviv",
-    RefereeId: "12",
-    Stadium: "Turner",
-    Result: "0:0",
-    Events: [],
-  });
-  await game2.save();
-})();
+  if (process.env.NODE_ENV === "dev" || addDefaults) {
+    let game1 = await GameData.create({
+      Date: new Date(2021, 6, 21, 15, 0),
+      Home_team: "Bnie Sakhnin",
+      Away_team: "Hapoel Beer Sheva",
+      Stadium: "Doha",
+      Result: "0:0",
+      Events: [],
+    });
+    await game1.save();
+    let game2 = await GameData.create({
+      Date: new Date(2021, 6, 28, 19, 0),
+      Home_team: "Hapoel Beer Sheva",
+      Away_team: "Hapoel Tel aviv",
+      RefereeId: "12",
+      Stadium: "Turner",
+      Result: "0:0",
+      Events: [],
+    });
+    await game2.save();
+  }
+}
 
 export default GameData;
