@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "set NODE_ENV=dev && node src/js/index.js",
-    "test": "set NODE_ENV=test && node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "test:unit": "set NODE_ENV=test && node --experimental-vm-modules node_modules/jest/bin/jest.js --testPathPattern=src/tests/unit-tests",
-    "test:integration": "set NODE_ENV=test && node --experimental-vm-modules node_modules/jest/bin/jest.js --testPathPattern=src/tests/integration",
-    "test:acceptance": "set NODE_ENV=test && node --experimental-vm-modules node_modules/jest/bin/jest.js --testPathPattern=src/tests/acceptance",
-    "test:user": "set NODE_ENV=test && node --experimental-top-level-await node_modules/jest/bin/jest.js --testPathPattern=src/tests/unit-tests/.*/user.*\\.test\\.js"
+    "test": "set NODE_ENV=test && node node_modules/jest/bin/jest.js",
+    "test:unit": "set NODE_ENV=test && node node_modules/jest/bin/jest.js --testPathPattern=src/tests/unit-tests",
+    "test:integration": "set NODE_ENV=test && node node_modules/jest/bin/jest.js --testPathPattern=src/tests/integration",
+    "test:acceptance": "set NODE_ENV=test && node node_modules/jest/bin/jest.js --testPathPattern=src/tests/acceptance",
+    "test:user": "set NODE_ENV=test && node node_modules/jest/bin/jest.js --testPathPattern=src/tests/unit-tests/.*/user.*\\.test\\.js"
   },
   "repository": {
     "type": "git",
