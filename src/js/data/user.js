@@ -17,7 +17,7 @@ const UserData = sequelize.define("user", {
 
 (async () => {
     await UserData.sync({
-        force: true
+        // force: true
     });
     let user = await UserData.create({
         username: 'rep',

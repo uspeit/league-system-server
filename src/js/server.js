@@ -29,3 +29,5 @@ app.use('/referees', passport.authenticate(
 app.listen(8080, () =>
   console.log(`League server listening on port 8080!`),
 );
+
+export default app
