@@ -3,7 +3,6 @@ import {
     checkUserCredentials,
     UserData
 } from '../../../js/data/user.js'
-import User from '../../../js/models/user.js'
 import Referee from '../../../js/models/referee.js'
 
 import {

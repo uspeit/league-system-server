@@ -19,7 +19,6 @@
             "program": "${workspaceFolder}/node_modules/.bin/jest",
             "env": {
                 "NODE_ENV": "dev",
-                "NODE_OPTIONS": "--experimental-vm-modules"
             },
             "windows": {
                 "program": "${workspaceFolder}/node_modules/jest/bin/jest"

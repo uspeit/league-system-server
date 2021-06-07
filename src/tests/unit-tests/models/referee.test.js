@@ -1,15 +1,12 @@
 import {
     UserData
 } from '../../../js/data/user.js'
-import User from '../../../js/models/user.js'
 import RefereeData from '../../../js/data/referee.js'
 import Referee from '../../../js/models/referee.js'
 import {
     expect,
     test
 } from '@jest/globals'
-
-
 
 beforeEach(async () => {
     await UserData.sync({
