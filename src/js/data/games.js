@@ -22,7 +22,7 @@ export async function syncGames(addDefaults) {
   await GameData.sync({
     force: true,
   });
-
+  /* istanbul ignore next */
   if (process.env.NODE_ENV === "dev" || addDefaults) {
     let game1 = await GameData.create({
       Date: new Date(2021, 6, 21, 15, 0),

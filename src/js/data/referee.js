@@ -19,6 +19,7 @@ export async function syncReferees(addDefaults){
   await RefereeData.sync({
     force: true,
   });
+  /* istanbul ignore next */
   if (process.env.NODE_ENV === "dev" || addDefaults) {
     let referee1 = await RefereeData.create({
       first_name: "aiman",

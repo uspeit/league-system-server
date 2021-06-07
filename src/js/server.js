@@ -32,6 +32,7 @@ app.use(
   refereesController
 );
 
+/* istanbul ignore next */
 if (process.env.NODE_ENV === "dev") {
   (async () => {
     await initDb();

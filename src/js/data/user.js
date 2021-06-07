@@ -24,9 +24,9 @@ const UserData = sequelize.define("user", {
 
 export async function syncUsers(addDefaults) {
   await UserData.sync({
-    force: true
+    force: true,
   });
-
+  /* istanbul ignore next */
   if (process.env.NODE_ENV === "dev" || addDefaults) {
     let user = await UserData.create({
       username: "rep",
