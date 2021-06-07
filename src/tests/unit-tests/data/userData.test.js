@@ -1,7 +1,9 @@
 import { checkUserCredentials, UserData } from "../../../js/data/user.js";
 import { expect, test } from "@jest/globals";
 
-beforeEach(async () => {
+
+// User DB - Username or Email Exists
+test("User - Exists", async () => {
   await UserData.sync({
     force: true,
   });
@@ -22,10 +24,7 @@ beforeEach(async () => {
   });
 
   await entry.save();
-});
-
-// User DB - Username or Email Exists
-test("User - Exists", async () => {
+  
   // Pass
   expect(await checkUserCredentials("test", "test@mail.com")).toBe(true);
   expect(await checkUserCredentials("test", null)).toBe(true);
