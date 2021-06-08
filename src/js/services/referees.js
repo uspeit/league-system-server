@@ -5,18 +5,9 @@ import fs from 'fs';
 import RefereeData from '../data/referee.js';
 import Game from '../models/game.js';
 
-const privateKey = fs.readFileSync('keys/private.pem');
-
 const router = express.Router();
 
-//router.post('/add', function (req, res) {
-//  // TODO
-//  res.status(200).send({
-//    userRole: req.user.role
-//  });
-//})
 // Add referee route
-
 router.post('/add', async function (req, res) {
   if(req.user.role === 'representative'){
     if(!req.body.first_name || !req.body.last_name || !req.body.idNum || !req.body.phone || !req.body.email){
