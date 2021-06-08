@@ -1,8 +1,6 @@
 import express from 'express';
 import Referee from '../models/referee.js';
-import User from '../models/user.js';
 import fs from 'fs';
-import RefereeData from '../data/referee.js';
 import Game from '../models/game.js';
 
 const router = express.Router();
