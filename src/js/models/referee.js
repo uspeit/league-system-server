@@ -1,5 +1,5 @@
 import RefereeData from '../data/referee.js'
-import GameData from '../data/games.js'
+import GameData from '../data/game.js'
 
 export default class Referee {
     constructor(first_name,last_name,idNum, phone, email) {
@@ -10,55 +10,72 @@ export default class Referee {
         this.email = email;
     }
 
-    static async getById(idNum) {
-        const referee= await RefereeData.findOne({
-            where: {
-                idNum: idNum
-            }
-        })
-        //console.log(referee)
-        if(referee!==null){
-            return{
-                referee
+    static getById(idNum) {
+        if(idNum){
+            let referee=RefereeData.findOne({where: {idNum: idNum}})
+            if(referee){
+                return referee
             }
         }
-        else{
-            return null
-        }
+        return null
     }
-
-    static async updateData(first_name,last_name,idNum,phone,email) {
-        return await RefereeData
-            .findOne({ where: {idNum:idNum} })
-            .then(function(referee) {
-                // update
-                if(referee){
-                    if(first_name){
-                        referee.first_name=first_name;
-                    }
-                    if(last_name){
-                        referee.last_name=last_name;
-                    }
-                    if(idNum){
-                        referee.idNum=idNum;
-                    }
-                    if(phone){
-                        referee.phone=phone;
-                    }
-                    if(email){
-                        referee.email=email;
-                    }
-                    referee.save()
+    /*
+    static async getById(idNum) {
+        if(idNum){
+            const referee= await RefereeData.findOne({
+                where: {
+                    idNum: idNum
                 }
             })
+            //console.log(referee)
+            if(!referee){
+                return null
+            }
+            else{
+                return referee
+            }
+        }
+        return null
+    }*/
+
+    static async updateData(first_name,last_name,idNum,phone,email) {
+        if(idNum){
+            return await RefereeData
+                .findOne({ where: {idNum:idNum} })
+                .then(function(referee) {
+                    // update
+                    if(referee){
+                        if(first_name){
+                            referee.first_name=first_name;
+                        }
+                        if(last_name){
+                            referee.last_name=last_name;
+                        }
+                        if(idNum){
+                            referee.idNum=idNum;
+                        }
+                        if(phone){
+                            referee.phone=phone;
+                        }
+                        if(email){
+                            referee.email=email;
+                        }
+                        referee.save()
+                    }
+                })
+        }
+        return null
     }
 
 
-    static async getMyGames(idUserNum){
-        const games=await GameData.findAll({
-            where: {RefereeId:idUserNum}
-        });
-        return games;
+    static getMyGames(idUserNum){
+        if(idUserNum){
+            const games= GameData.findAll({
+                where: {RefereeId:idUserNum}
+            });
+            return games;
+        }
+        return null
     }
 
     static async getAll() {
@@ -66,7 +83,9 @@ export default class Referee {
         console.log(referees)
         return referees.map(fromData)
     }
-
+    static fromData(refereeData) {
+        return new Referee(refereeData.first_name,refereeData.last_name, refereeData.id,refereeData.phone ,refereeData.email)
+    }
     static async addEventsGame(idNum,gameId,event){
         if(event && gameId){
             await GameData.update(
@@ -85,12 +104,13 @@ export default class Referee {
         
     }
     static async addReferee(first_name,last_name,idNum,phone,email){
-        const referee=new Referee(first_name,last_name,idNum,phone,email)
-        let refereeData = await RefereeData.create(referee);
+        let referee= await this.getById(idNum);
+        if(referee){
+            return false
+        }
+        const newReferee=new Referee(first_name,last_name,idNum,phone,email)
+        let refereeData = await RefereeData.create(newReferee);
         await refereeData.save()
+        return true;
     }   
-
-    static fromData(refereeData) {
-        return new Referee(refereeData.first_name,refereeData.last_name, refereeData.id,refereeData.phone ,refereeData.email)
-    }
 }

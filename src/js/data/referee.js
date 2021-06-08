@@ -2,7 +2,7 @@ import DataTypes from "sequelize";
 import sequelize from "./db.js";
 import { UserData } from "./user.js";
 
-const Op = DataTypes.Sequelize.Op;
+//const Op = DataTypes.Sequelize.Op;
 
 const RefereeData = sequelize.define("referee", {
   first_name: DataTypes.TEXT,

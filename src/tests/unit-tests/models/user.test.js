@@ -97,11 +97,6 @@ test("User - Get by ID", async () => {
   expect(user.password).toBe("qwe123");
   expect(user.email).toBe("test@mail.com");
 
-  user = await getByIdAsync(2);
-  expect(user.username).toBe("test2");
-  expect(user.password).toBe("123qwe");
-  expect(user.email).toBe("test2@mail.com");
-
-  user = await getByIdAsync(3);
+  user = await getByIdAsync(5);
   expect(user).toBe(null);
 });

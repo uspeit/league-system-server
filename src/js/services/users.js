@@ -35,30 +35,20 @@ router.post("/signup", async function (req, res) {
       err: "Unauthorized",
     });
 
-  if (
-    !req.body.username ||
-    !req.body.password ||
-    !req.body.email ||
-    !req.body.role
-  )
-    res.status(400).send({
-      err: "Please enter username, password, email and role",
-    });
+    if (!req.body.username || !req.body.password || !req.body.email || !req.body.role || !req.body.idUserNum)
+        res.status(400).send({
+            err: 'Please enter username, password, email and role'
+        })
 
-  const err = await User.register(
-    req.body.username,
-    req.body.password,
-    req.body.email,
-    req.body.role
-  );
-  if (err === null)
-    res.status(200).send({
-      err: null,
-    });
-  else
-    res.status(400).send({
-      err: err,
-    });
-});
+    const err = await User.register(req.body.username, req.body.password,req.body.idUserNum, req.body.email, req.body.role)
+    if (err === null)
+        res.status(200).send({
+            err: null
+        });
+    else
+        res.status(400).send({
+            err: err
+        });
+})
 
 export default router;
