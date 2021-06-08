@@ -1,7 +1,7 @@
 // we will use supertest to test HTTP requests/responses
 import request from "supertest";
 // we also need our app for the correct routes!
-import server from "../../js/server.js";
+import app from "../../js/app.js";
 
 import { describe, expect, it, beforeAll } from "@jest/globals";
 import initDb from "../../js/data/init.js";
@@ -10,7 +10,7 @@ describe("Login Use Case", () => {
   // Success
   it("Login Success", async () => {
     await initDb(true);
-    const response = await request(server)
+    const response = await request(app)
       .post("/users/login")
       .send({
         username: "rep",
@@ -31,7 +31,7 @@ describe("Login Use Case", () => {
   // Fail
   it("Login Fail", async () => {
     await initDb(true);
-    const response = await request(server)
+    const response = await request(app)
       .post("/users/login")
       .send({
         username: "rep",
