@@ -11,22 +11,22 @@ var JwtStrategy = passportJwt.Strategy,
 var opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: publicKey,
-  algorithms: ["RS256"]
+  algorithms: ["RS256"],
 };
 
-passport.use(
-  new JwtStrategy(opts, function (jwt_payload, done) {
-    User.getById(jwt_payload.sub, function (user, err) {
-      if (err) {
-        return done(err, false);
-      }
-      if (user) {
-        return done(null, user);
-      } else {
-        return done(null, false);
-      }
-    });
-  })
-);
+export function verifyUserToken(jwt_payload, done) {
+  User.getById(jwt_payload.sub, function (user, err) {
+    if (err) {
+      return done(err, false);
+    }
+    if (user) {
+      return done(null, user);
+    } else {
+      return done(null, false);
+    }
+  });
+}
+
+passport.use(new JwtStrategy(opts, verifyUserToken));
 
 export default passport;

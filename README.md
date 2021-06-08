@@ -17,7 +17,7 @@ In order to test the source code for the system, use the command:
 
 ## Source
 
-## Packages Info:
+### Packages Info:
 - Data - Database and Data layer using SQLite and Sequelize
 - Models - Application Domain layer utilizing OOP
 - Services - Exposed Service layer using REST architecture

@@ -15,28 +15,30 @@ const RefereeData = sequelize.define("referee", {
   email: DataTypes.TEXT,
 });
 
-(async () => {
+export async function syncReferees(addDefaults) {
   await RefereeData.sync({
-     force: true,
+    force: true,
   });
+  /* istanbul ignore next */
+  if (process.env.NODE_ENV === "dev" || addDefaults) {
+    let referee = await RefereeData.create({
+      first_name: "moshe",
+      last_name: "levi",
+      idNum: "1",
+      phone: "123456",
+      email: "moshe@",
+    });
+    await referee.save();
 
-  let referee1 = await RefereeData.create({
-    first_name: "aiman",
-    last_name: "saied",
-    idNum: "12",
-    phone: "054",
-    email: "aiman@",
-  });
-  await referee1.save();
-
-  let referee2 = await RefereeData.create({
-    first_name: "moshe",
-    last_name: "levi",
-    idNum: "951",
-    phone: "123456",
-    email: "moshe@",
-  });
-  await referee2.save();
-})();
+    let entry = await UserData.create({
+      username: "aiman",
+      password: "123",
+      idUserNum: "208112557",
+      email: "aiman@",
+      role: "referee",
+    });
+    await entry.save();
+  }
+}
 
 export default RefereeData;

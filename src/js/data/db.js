@@ -1,6 +1,7 @@
 import Sequelize from 'sequelize';
 
 var dbStore;
+/* istanbul ignore next */
 if (process.env.NODE_ENV === 'dev') {
   dbStore = 'data/store.db'
 } else if (process.env.NODE_ENV === 'test') {
