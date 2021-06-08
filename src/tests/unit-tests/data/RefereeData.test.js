@@ -5,82 +5,60 @@ import {
 } from '../../../js/data/user.js'
 import User from '../../../js/models/user.js'
 import Referee from '../../../js/models/referee.js'
+import Game from '../../../js/models/game.js'
+import GameData from '../../../js/data/game.js'
 
 import {
     expect,
-    test
+    test,
+    jest
 } from '@jest/globals'
 
-beforeEach(async () => {
-    await UserData.sync({
-        force: true
-    })
-    await RefereeData.sync({
-        force:true
-    })
+jest.mock('../../../js/data/user.js');
+jest.mock('../../../js/data/referee.js');
+jest.mock('../../../js/data/game.js');
 
+beforeEach(async () => {
+    //await UserData.sync({
+    //    force: true
+    //})
+    //await RefereeData.sync({
+    //    force:true
+    //})
+    //await GameData.sync({
+    //    force:true
+    //})
+    
     //let referee = await RefereeData.create({
-    //    first_name:'aiman',
-    //    last_name:'saied',
-    //    idNum:'12',
-    //    phone:'054',
-    //    email: 'aiman@'
+    //    first_name:'moshe',
+    //    last_name:'levi',
+    //    idNum:'1',
+    //    phone:'123456',
+    //    email: 'moshe@'
     //})
     //await referee.save()
-    
-    let referee = await RefereeData.create({
-        first_name:'moshe',
-        last_name:'levi',
-        idNum:'951',
-        phone:'123456',
-        email: 'moshe@'
-    })
-    await referee.save()
+//
+    //let entry = await UserData.create({
+    //    username: 'aiman',
+    //    password: '123',
+    //    email: 'aiman@',
+    //    role: 'referee'
+    //})
+    //await entry.save();
 
     let entry = await UserData.create({
-        username: 'aiman',
-        password: '123',
-        email: 'aiman@mail.com',
-        role: 'referee'
-    })
-    await entry.save();
-
-    entry = await UserData.create({
         username: 'rep',
         password: '123',
         idUserNum: '123',
-        email: 'rep',
+        email: 'rep@mail.com',
         role: 'representative'
     })
     await entry.save();
 });
 
-// User DB - Username or Email Exists
-test('User - Exists', async () => {
-    // Pass
-    expect(await Referee.getById('951'))
+test('Referee - Exists', async () => {    
+    expect(await checkUserCredentials('aiman', 'aiman@'))
         .toBe(true);
-    expect(await checkUserCredentials('test', null))
+    expect(await checkUserCredentials('rep', 'rep@mail.com'))
         .toBe(true);
-    expect(await checkUserCredentials(null, 'test@mail.com'))
-        .toBe(true);
-    expect(await checkUserCredentials('test2', 'test2@mail.com'))
-        .toBe(true);
-    expect(await checkUserCredentials('test2', null))
-        .toBe(true);
-    expect(await checkUserCredentials(null, 'test2@mail.com'))
-        .toBe(true);
-    expect(await checkUserCredentials('test', 'test2@mail.com'))
-        .toBe(true);
-    expect(await checkUserCredentials('test2', 'test@mail.com'))
-        .toBe(true);
-    // Fail
-    expect(await checkUserCredentials(null, null))
-        .toBe(false);
-    expect(await checkUserCredentials('test3', null))
-        .toBe(false);
-    expect(await checkUserCredentials(null, 'test3@mail.com'))
-        .toBe(false);
-    expect(await checkUserCredentials('test3', 'test3@mail.com'))
-        .toBe(false);
 });

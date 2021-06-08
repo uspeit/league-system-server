@@ -1,5 +1,4 @@
 import DataTypes from 'sequelize';
-import User from '../models/user.js';
 import sequelize from './db.js'
 const Op = DataTypes.Sequelize.Op;
 
@@ -16,26 +15,28 @@ const UserData = sequelize.define("user", {
     role: DataTypes.ENUM('user', 'player', 'referee', 'coach', 'manager', 'representative')
 });
 
-await UserData.sync({
-    force: true
-});
-let user = await UserData.create({
-    username: 'rep',
-    password: '123',
-    idUserNum: '123',
-    email: 'rep',
-    role: 'representative'
-})
-await user.save()
+(async () => {
+    await UserData.sync({
+        force: true
+    });
+    let user = await UserData.create({
+        username: 'rep',
+        password: '123',
+        idUserNum: '123',
+        email: 'rep',
+        role: 'representative'
+    })
+    await user.save()
 
-let refereeUser = await UserData.create({
-    username: 'aiman',
-    password: '12',
-    idUserNum: '12',
-    email: 'aiman@',
-    role: 'referee'
-})
-await refereeUser.save()
+    let refereeUser = await UserData.create({
+        username: 'aiman',
+        password: '123',
+        idUserNum: '208112557',
+        email: 'aiman@',
+        role: 'referee'
+    })
+    await refereeUser.save()
+})();
 
 /**
  * 

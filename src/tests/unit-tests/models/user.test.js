@@ -4,49 +4,21 @@ import {
 import User from '../../../js/models/user.js'
 import {
     expect,
-    test
+    test,
+    jest
 } from '@jest/globals'
 
+// Setup mocks for Data layer
+jest.mock('../../../js/data/user.js');
 
-beforeEach(async () => {
-    await UserData.sync({
-        force: true
-    })
-    let entry = await UserData.create({
-        username: 'test',
-        password: 'qwe123',
-        email: 'test@mail.com',
-        role: 'referee'
-    })
-
-    await entry.save();
-
-    entry = await UserData.create({
-        username: 'test2',
-        password: '123qwe',
-        email: 'test2@mail.com',
-        role: 'player'
-    })
-
-    await entry.save();
+beforeEach(() => {
+    UserData.destroy(); // Clears mock data between tests
 });
 
 // User - Register
 test('User - Register', async () => {
-    let user = await UserData.findOne({
-        where: {
-            username: 'test3'
-        }
-    });
-    expect(user)
-        .toBe(null)
-
-    let error = await User.register('test3', 'asdzxc', 'test3@mail.com', 'player')
-    user = await UserData.findOne({
-        where: {
-            username: 'test3'
-        }
-    });
+    let error = await User.register('test3', 'asdzxc', 123456789, 'test3@mail.com', 'player')
+    let user = UserData.saved;
 
     expect(error)
         .toBe(null);
@@ -60,23 +32,23 @@ test('User - Register', async () => {
         .toBe('test3@mail.com')
 
 
-    error = await User.register('test3', 'asdzxc', 'test3@mail.com', 'player');
+    error = await User.register('test3', 'asdzxc', 123836789, 'test3@mail.com', 'player');
     expect(error)
         .not.toBe(null);
 
-    error = await User.register('test2', 'asdzxc', 'aa@mail.com', 'player');
+    error = await User.register('test2', 'asdzxc', 123454589, 'aa@mail.com', 'player');
     expect(error)
         .not.toBe(null);
 
-    error = await User.register('test', 'asdzxc', 'bb@mail.com', 'player');
+    error = await User.register('test', 'asdzxc', 123452189, 'bb@mail.com', 'player');
     expect(error)
         .not.toBe(null);
 
-    error = await User.register('aaaaaa', 'asdzxc', 'test@mail.com', 'player');
+    error = await User.register('aaaaaa', 'asdzxc', 123486389, 'test@mail.com', 'player');
     expect(error)
         .not.toBe(null);
 
-    error = await User.register('bbbbbbb', 'asdzxc', 'test2@mail.com', 'player');
+    error = await User.register('bbbbbbb', 'asdzxc', 123456439, 'test2@mail.com', 'player');
     expect(error)
         .not.toBe(null);
 });
@@ -119,12 +91,7 @@ test('User - Get by ID', async () => {
     expect(user.email)
         .toBe('test2@mail.com');
 
-    user = await getByIdAsync(3)
-    expect(user)
-        .toBe(null);
-
-    user = await getByIdAsync(null)
+    user = await getByIdAsync(5)
     expect(user)
         .toBe(null);
 });
-

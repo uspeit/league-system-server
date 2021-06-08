@@ -28,13 +28,17 @@ router.put('/updateRefereeGame',async function (req,res) {
     }
   }
   else if(req.user.role==='referee'){
-    let referee=Referee.getById(req.user.idNum);
+    let referee=await Referee.getById(req.user.idNum);
     if(!referee){
       res.status(400).send("You can't update data game")
     }
     else{
-      await Game.updateData(req.body.Result,req.body.Events)
-      res.status(200).send("Success")
+      if(Game.updateData(req.body.Result,req.body.Events)){
+        res.status(200).send("Success")
+      }
+      else{
+        res.status(400).send("Update data failed")
+      }
     }
   }
   else{

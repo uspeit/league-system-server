@@ -1,7 +1,6 @@
 import express from 'express';
 import Referee from '../models/referee.js';
 import User from '../models/user.js';
-import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import RefereeData from '../data/referee.js';
 import Game from '../models/game.js';
@@ -24,8 +23,11 @@ router.post('/add', async function (req, res) {
       res.status(400).send("One or more data is missing")  
     }
     else{
-      await Referee.addReferee(req.body.first_name,req.body.last_name,req.body.idNum,req.body.phone,req.body.email)
-      res.status(200).send("Success")
+      if(await Referee.addReferee(req.body.first_name,req.body.last_name,req.body.idNum,req.body.phone,req.body.email)){
+        res.status(200).send("Success")
+      }else{
+        res.status(400).send("Failed referee user already exists")
+      }
     }
   }
   else{
@@ -55,8 +57,11 @@ router.put('/updateData',async function (req,res) {
       res.status(400).send("You can't update data referee")
     }
     else{
-      Referee.updateData(req.body.first_name,req.body.last_name,req.user.idUserNum,req.body.phone,req.body.email)
-      res.status(200).send("Success")
+      if(Referee.updateData(req.body.first_name,req.body.last_name,req.user.idUserNum,req.body.phone,req.body.email)){
+        res.status(200).send("Success")
+      }else{
+        res.status(400).send("Update data failed")
+      }
     }
   }
   else{

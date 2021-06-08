@@ -2,8 +2,10 @@
     "env": {
         "test": {
             "plugins": [
+                "@babel/transform-runtime",
                 "@babel/plugin-transform-modules-commonjs"
-            ]
+            ],
+            "presets": ["@babel/preset-env"]
         }
     }
 }
