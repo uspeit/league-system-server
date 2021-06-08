@@ -2,7 +2,6 @@ import {
     checkUserCredentials,
     UserData
 } from '../../../js/data/user.js'
-import User from '../../../js/models/user.js'
 import {
     expect,
     test
