@@ -4,6 +4,6 @@ branches:
     - main
 node_js:
  - lts/* 
-install: 
+before_install: 
  - ./scripts/init.sh
  - npm install
