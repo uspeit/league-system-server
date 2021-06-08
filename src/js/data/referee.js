@@ -2,7 +2,7 @@ import DataTypes from "sequelize";
 import sequelize from "./db.js";
 import { UserData } from "./user.js";
 
-const Op = DataTypes.Sequelize.Op;
+//const Op = DataTypes.Sequelize.Op;
 
 const RefereeData = sequelize.define("referee", {
   first_name: DataTypes.TEXT,
@@ -15,29 +15,29 @@ const RefereeData = sequelize.define("referee", {
   email: DataTypes.TEXT,
 });
 
-export async function syncReferees(addDefaults){
+export async function syncReferees(addDefaults) {
   await RefereeData.sync({
     force: true,
   });
   /* istanbul ignore next */
   if (process.env.NODE_ENV === "dev" || addDefaults) {
-    let referee1 = await RefereeData.create({
-      first_name: "aiman",
-      last_name: "saied",
-      idNum: "12",
-      phone: "054",
-      email: "aiman@",
-    });
-    await referee1.save();
-
-    let referee2 = await RefereeData.create({
+    let referee = await RefereeData.create({
       first_name: "moshe",
       last_name: "levi",
-      idNum: "951",
+      idNum: "1",
       phone: "123456",
       email: "moshe@",
     });
-    await referee2.save();
+    await referee.save();
+
+    let entry = await UserData.create({
+      username: "aiman",
+      password: "123",
+      idUserNum: "208112557",
+      email: "aiman@",
+      role: "referee",
+    });
+    await entry.save();
   }
 }
 

@@ -103,7 +103,7 @@ describe("User Model Unit Tests", () => {
     expect(user.password).toBe("123qwe");
     expect(user.email).toBe("test2@mail.com");
 
-    user = await getByIdAsync(3);
+    user = await getByIdAsync(5);
     expect(user).toBe(null);
   });
 });

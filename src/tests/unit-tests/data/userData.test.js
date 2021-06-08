@@ -1,7 +1,6 @@
 import { checkUserCredentials, UserData } from "../../../js/data/user.js";
 import { expect, test } from "@jest/globals";
 
-
 // User DB - Username or Email Exists
 test("User - Exists", async () => {
   await UserData.sync({
@@ -24,7 +23,7 @@ test("User - Exists", async () => {
   });
 
   await entry.save();
-  
+
   // Pass
   expect(await checkUserCredentials("test", "test@mail.com")).toBe(true);
   expect(await checkUserCredentials("test", null)).toBe(true);

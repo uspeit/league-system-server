@@ -12,9 +12,9 @@ function flattenObj(obj, parent, res = {}) {
 // Mock
 class UserData {
     static saved = null;
-    static usedNames = ['test', 'test2'];
-    static usedPasswords = ['qwe123', '123qwe'];
-    static usedEmails = ['test@mail.com', 'test2@mail.com'];
+    static usedNames = ['test', 'test2','aiman','rep'];
+    static usedPasswords = ['qwe123', '123qwe','123','123'];
+    static usedEmails = ['test@mail.com', 'test2@mail.com','aiman@','rep@'];
 
     constructor(userId, idUserNum, username, password, email, role) {
         this.userId = userId;
@@ -62,9 +62,9 @@ class UserData {
     }
 
     static destroy() {
-        this.usedNames = ['test', 'test2'];
-        this.usedPasswords = ['qwe123', '123qwe'];
-        this.usedEmails = ['test@mail.com', 'test2@mail.com'];
+        this.usedNames = ['test', 'test2','aiman','rep'];
+        this.usedPasswords = ['qwe123', '123qwe','123','123'];
+        this.usedEmails = ['test@mail.com', 'test2@mail.com','aiman@','rep@'];
     }
 }
 
