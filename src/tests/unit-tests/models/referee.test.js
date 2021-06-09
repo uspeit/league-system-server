@@ -28,20 +28,13 @@ jest.mock('../../../js/data/game.js');
 
 // Referee - add
 test('referee - add', async () => {
-    let referee = await RefereeData.findOne({
-        where: {
-            idNum: '12'
-        }
-    });
+
+    let referee = await Referee.getById('12')
     expect(referee)
         .toBe(null)
 
     let error = await Referee.addReferee('sa','ah','12','054','sa@')
-    referee = await RefereeData.findOne({
-        where: {
-            idNum: '12'
-        }
-    });
+    referee = await Referee.getById('12')
     expect(referee)
         .not.toBe(null);
     expect(referee.first_name)
@@ -51,74 +44,45 @@ test('referee - add', async () => {
     expect(referee.email)
         .toBe('sa@')
 
-
-    //error = await Referee.addReferee('aiman','saied','12','054','aiman@')
-    //referee = await RefereeData.findOne({
-    //    where: {
-    //        idNum: '12'
-    //    }
-    //});
-    //expect(referee)
-    //    .not.toBe(null);
     error = await Referee.addReferee('aa','aa','12','054','aa@')
-    referee = await RefereeData.findOne({
-        where: {
-            idNum: '12'
-        }
-    });
+    referee = await Referee.getById('12')
     expect(referee.first_name)
         .toBe('sa')
     
     error = await Referee.addReferee('aa','aa','13','054','aa@')
-    referee = await RefereeData.findOne({
-        where: {
-            idNum: '13'
-        }
-    });
+    referee = await Referee.getById('13')
     expect(referee)
         .not.toBe(null);
+
     error = await Referee.addReferee('bb','bb','14','054','bb@')
-    referee = await RefereeData.findOne({
-        where: {
-            idNum: '14'
-        }
-    });
+    referee = await Referee.getById('14')
     expect(referee)
         .not.toBe(null);
+
     error = await Referee.addReferee('cc','cc','15','054','cc@')
-    referee = await RefereeData.findOne({
-        where: {
-            idNum: '15'
-        }
-    });
+    referee = await Referee.getById('15')
     expect(referee)
         .not.toBe(null);
+
     error = await Referee.addReferee('dd','dd','16','054','dd@')
-    referee = await RefereeData.findOne({
-        where: {
-            idNum: '16'
-        }
-    });
+    referee = await Referee.getById('16')
     expect(referee)
         .not.toBe(null);
+    
     error = await Referee.addReferee('ee','ee','17','054','ee@')
-    referee = await RefereeData.findOne({
-        where: {
-            idNum: '17'
-        }
-    });
+    referee = await Referee.getById('17')
     expect(referee)
         .not.toBe(null);
+
+    error = await Referee.addReferee('sa','ah',null,'054','sa@')
+    expect(error)
+        .toBe(true)
 });
 
 // Referee - Get by ID
 test('Referee - Get by ID', async() => {
     
-    let referee = await RefereeData.findOne({
-        where: {
-            idNum: '208112557'
-        }
-    });
+    let referee = await Referee.getById('208112557')
     expect(referee.first_name)
         .toBe('aiman');
     expect(referee.idNum)
@@ -126,11 +90,7 @@ test('Referee - Get by ID', async() => {
     expect(referee.email)
         .toBe('aiman@');
 
-    referee = await RefereeData.findOne({
-        where: {
-            idNum: '17'
-        }
-    });
+    referee = await Referee.getById('17')
     expect(referee.first_name)
         .toBe('ee');
     expect(referee.idNum)
@@ -138,22 +98,13 @@ test('Referee - Get by ID', async() => {
     expect(referee.email)
         .toBe('ee@');
 
-
-    referee = await RefereeData.findOne({
-        where: {
-            idNum: '18'
-        }
-    });
+    referee = await Referee.getById('18')
     expect(referee)
         .toBe(null);
 
-    referee = await RefereeData.findOne({
-        where: {
-            idNum: null
-        }
-    });
+    referee = await Referee.getById(null)
     expect(referee)
-        .toBe(null);
+        .toBe(undefined);
 });
 
 
@@ -161,11 +112,7 @@ test('Referee - Get by ID', async() => {
 test('Referee - Update Data Referee', async () => {
     
     let error = await Referee.updateData('bb','bb','13',null,null)
-    let referee = await RefereeData.findOne({
-        where: {
-            idNum: '13'
-        }
-    });
+    let referee = await Referee.getById('13')
     expect(referee.first_name)
         .toBe('bb');
     expect(referee.idNum)
@@ -178,11 +125,7 @@ test('Referee - Update Data Referee', async () => {
         .toBe('aa@');
 
     error = await Referee.updateData('cc','cc','14','1234',null)
-    referee = await RefereeData.findOne({
-        where: {
-            idNum: '14'
-        }
-    });
+    referee = await Referee.getById('14')
     expect(referee.first_name)
         .toBe('cc');
     expect(referee.idNum)
@@ -195,11 +138,7 @@ test('Referee - Update Data Referee', async () => {
         .toBe('bb@');
 
     error = await Referee.updateData('dd','dd','15','123','dd@')
-    referee = await RefereeData.findOne({
-        where: {
-            idNum: '15'
-        }
-    });
+    referee = await Referee.getById('15')
     expect(referee.first_name)
         .toBe('dd');
     expect(referee.idNum)
@@ -212,11 +151,7 @@ test('Referee - Update Data Referee', async () => {
         .toBe('dd@');  
 
     error = await Referee.updateData(null,null,'16',null,null)
-    referee = await RefereeData.findOne({
-        where: {
-            idNum: '16'
-        }
-    });
+    referee = await Referee.getById('16')
     expect(referee.first_name)
         .toBe('dd');
     expect(referee.idNum)
@@ -228,24 +163,17 @@ test('Referee - Update Data Referee', async () => {
     expect(referee.email)
         .toBe('dd@'); 
 
+    error = await Referee.updateData('dd','dd',null,'123','dd@')
+    expect(error)
+        .toBe(undefined)
+
 });
 
 // Referee - Update Game Data
 test('Referee - Update Game Data', async () => {
-    //const updateDataGame = function (gameId,Date,Stadium,RefereeId,Result,Events) {
-    //    return new Promise(function (resolve, reject) {
-    //        Game.updateData(gameId,Date,Stadium,RefereeId,Result,Events, function (games, err) {
-    //            resolve(games)
-    //        });
-    //    });
-    //}
 
     let error = await Game.updateData(1,new Date(2021,8,11,19,0),null,null,null,null)
-    let game = await GameData.findOne({
-        where: {
-            gameId: 1
-        }
-    });
+    let game=await Game.getById(1)
     expect(game.gameId)
         .toBe(1);
     expect(game.Home_team)
@@ -260,11 +188,7 @@ test('Referee - Update Game Data', async () => {
         .toBe("0:0");
     
     error = await Game.updateData(2,null,'Tel aviv',null,null,null)
-    game = await GameData.findOne({
-        where: {
-            gameId: 2
-        }
-    });
+    game = await Game.getById(2)
     expect(game.gameId)
         .toBe(2);
     expect(game.Home_team)
@@ -279,11 +203,7 @@ test('Referee - Update Game Data', async () => {
         .toBe("0:0");
 
     error = await Game.updateData(1,null,null,'13',null,null)
-    game = await GameData.findOne({
-        where: {
-            gameId: 1
-        }
-    });
+    game = await Game.getById(1)
     expect(game.gameId)
         .toBe(1);
     expect(game.Home_team)
@@ -298,11 +218,7 @@ test('Referee - Update Game Data', async () => {
         .toBe("0:0");
     
     error = await Game.updateData(3,null,null,'12',null,null)
-    game = await GameData.findOne({
-        where: {
-            gameId: 3
-        }
-    });    
+    game = await Game.getById(3)   
     expect(game.gameId)
         .toBe(3);
     expect(game.Home_team)
@@ -316,12 +232,8 @@ test('Referee - Update Game Data', async () => {
     expect(game.Result)
         .toBe("0:0");
 
-    error = await Game.updateData(4,null,null,null,"1:0",null)
-    game = await GameData.findOne({
-        where: {
-            gameId: 4
-        }
-    });
+    error = await Game.updateData(4,null,null,null,"1:0",['30.7.2021 18:31 31 ,goooal Maccabi Haifa'])
+    game = await Game.getById(4)
     expect(game.gameId)
         .toBe(4);
     expect(game.Home_team)
@@ -334,49 +246,84 @@ test('Referee - Update Game Data', async () => {
         .toBe('15');
     expect(game.Result)
         .toBe("1:0");
-});
+    expect(game.Events[0])
+        .toBe('30.7.2021 18:31 31 ,goooal Maccabi Haifa')
+    
+    error = await Game.updateData(5,null,null,null,null,null)
+    expect(error)
+        .toBe(undefined)
+    
+    error = await Game.updateData(null,new Date(2021,8,11,19,0),'Tel aviv','12',"1:0",[])
+    expect(error)
+        .toBe(false)
 
+});
 
 // Referee - Get referee games
 test('Referee - Get referee games', async () => {
-    //const getRefereeGames = function (idReferee) {
-    //    return new Promise(function (resolve, reject) {
-    //        Referee.getMyGames(idReferee, function (games, err) {
-    //            resolve(games)
-    //        });
-    //    });
-    //}
-
-    let gamesReferee= await GameData.findAll({
-        where: {RefereeId:'12'}
-    });
+    
+    let gamesReferee= await Referee.getMyGames('12')
     expect(gamesReferee[0].gameId)
         .toBe(3);
     
-
-    gamesReferee=await GameData.findAll({
-        where: {RefereeId:'13'}
-    });
+    gamesReferee= await Referee.getMyGames('13')
     expect(gamesReferee[0].gameId)
         .toBe(1);
     expect(gamesReferee[1].gameId)
         .toBe(2);
 
-
-    gamesReferee=await GameData.findAll({
-        where: {RefereeId:'15'}
-    });    
+    gamesReferee= await Referee.getMyGames('15')     
     expect(gamesReferee[0].gameId)
         .toBe(4);
 
-    gamesReferee=await GameData.findAll({
-        where: {RefereeId:'14'}
-    });
+    gamesReferee= await Referee.getMyGames('14')
     expect(gamesReferee)
         .toBe(null);
+
+    gamesReferee= await Referee.getMyGames(null)
+    expect(gamesReferee)
+        .toBe(undefined)
+
 });
 
+test('Referee - Update Event Game', async () => {
+    
+    let error = await Game.updateEvent(4,'15','30.7.2021 18:31 31 ,goooal Hapoel Beer Sheva',1)
+    let game = await Game.getById(4)
+    expect(error)
+        .toBe(true)
+    expect(game.Events[0])
+        .toBe('30.7.2021 18:31 31 ,goooal Hapoel Beer Sheva')
+    
+    error = await Game.updateEvent(1,'15','30.7.2021 18:31 31 ,goooal Hapoel Beer Sheva',1)
+    expect(error)
+        .toBe(false)
 
+    error = await Game.updateEvent(4,'15','30.7.2021 18:31 31 ,goooal Hapoel Beer Sheva',2)
+    expect(error)
+        .toBe(false)
 
+    error = await Game.updateEvent(5,'15','30.7.2021 18:31 31 ,goooal Hapoel Beer Sheva',2)
+    expect(error)
+        .toBe(false)
 
+});
 
+test('Referee - add Event to Game', async () => {
+
+    let error = await Referee.addEventsGame('15',4,'30.7.2021 19:40 85 ,Red cart Loai Taha')
+    let game = await Game.getById(4)
+    expect(game.Events[1])
+        .toBe('30.7.2021 19:40 85 ,Red cart Loai Taha')
+    
+    error = await Referee.addEventsGame('15',null,'30.7.2021 19:40 85 ,Red cart Loai Taha')
+    game = await Game.getById(4)
+    expect(error)
+        .toBe(undefined)
+
+    error = await Referee.addEventsGame('15',2,'30.7.2021 19:40 85 ,Red cart Loai Taha')
+    game = await Game.getById(2)
+    expect(game.Events.length)
+        .toBe(0)
+
+})

@@ -17,26 +17,10 @@ export default class Referee {
                 return referee
             }
         }
-        return null
+        return undefined
     }
-    /*
-    static async getById(idNum) {
-        if(idNum){
-            const referee= await RefereeData.findOne({
-                where: {
-                    idNum: idNum
-                }
-            })
-            //console.log(referee)
-            if(!referee){
-                return null
-            }
-            else{
-                return referee
-            }
-        }
-        return null
-    }*/
+    
+    
 
     static async updateData(first_name,last_name,idNum,phone,email) {
         if(idNum){
@@ -64,7 +48,7 @@ export default class Referee {
                     }
                 })
         }
-        return null
+        return undefined
     }
 
 
@@ -75,9 +59,9 @@ export default class Referee {
             });
             return games;
         }
-        return null
+        return undefined
     }
-
+    /*
     static async getAll() {
         const referees = await RefereeData.findAll()
         console.log(referees)
@@ -85,24 +69,23 @@ export default class Referee {
     }
     static fromData(refereeData) {
         return new Referee(refereeData.first_name,refereeData.last_name, refereeData.id,refereeData.phone ,refereeData.email)
-    }
+    }*/
     static async addEventsGame(idNum,gameId,event){
         if(event && gameId){
-            await GameData.update(
-                {'Events' : sequelize.fn('array_append', sequelize.col('Events'), event)},
-                {where: {
-                    gameId:gameId,
-                    RefereeId:idNum
+            return await GameData
+                .findOne({where: [{gameId:gameId,RefereeId:idNum}]})
+                .then(function(game) {
+                    // update
+                    if(game.RefereeId===idNum){
+                        if(event){
+                            game.Events.push(event);
+                        }
+                        game.save()
                     }
-                });
-            
-            return true
+                })
         }
-        return false
     }
-    static async updateEventsGame(game,event){
-        
-    }
+    
     static async addReferee(first_name,last_name,idNum,phone,email){
         let referee= await this.getById(idNum);
         if(referee){
