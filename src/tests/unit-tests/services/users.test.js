@@ -1,5 +1,5 @@
 import User from "../../../js/models/user.js";
-import { postLogin, postSignup } from "../../../js/services/users.js";
+import { UserService } from "../../../js/services/users.js";
 import { describe, expect, test, jest } from "@jest/globals";
 
 // Setup mocks for Domain layer
@@ -24,7 +24,7 @@ describe("Users Service Unit Tests", () => {
     let req = {
       body: {},
     };
-    await postSignup(req, res);
+    await UserService.postSignup(req, res);
 
     // Master Password - Authorized
     res = {
@@ -41,7 +41,7 @@ describe("Users Service Unit Tests", () => {
         masterPassword: "345",
       },
     };
-    await postSignup(req, res);
+    await UserService.postSignup(req, res);
 
     // Parameter validation - Missing
     res = {
@@ -70,7 +70,7 @@ describe("Users Service Unit Tests", () => {
       };
 
       req.body[param] = undefined;
-      await postSignup(req, res);
+      await UserService.postSignup(req, res);
     };
     await testParam("username");
     await testParam("password");
@@ -85,7 +85,7 @@ describe("Users Service Unit Tests", () => {
           send: function (resBody) {
             expect(resStatus).toBe(400);
             expect(resBody.err).not.toBe(null);
-            expect(User.lastLogin).toStrictEqual({});
+            expect(User.lastRegistered).toStrictEqual({});
           },
         };
       },
@@ -100,7 +100,7 @@ describe("Users Service Unit Tests", () => {
         idUserNum: "92837423",
       },
     };
-    await postSignup(req, res);
+    await UserService.postSignup(req, res);
 
     // Valid Register
     res = {
@@ -130,7 +130,7 @@ describe("Users Service Unit Tests", () => {
         idUserNum: "92837423",
       },
     };
-    await postSignup(req, res);
+    await UserService.postSignup(req, res);
   });
 
   // User - Login
@@ -153,14 +153,14 @@ describe("Users Service Unit Tests", () => {
         username: "user",
       },
     };
-    await postLogin(req, res);
+    await UserService.postLogin(req, res);
 
     req = {
       body: {
         password: "pass",
       },
     };
-    await postLogin(req, res);
+    await UserService.postLogin(req, res);
 
     // Valid Login - Invalid credentials
     res = {
@@ -186,7 +186,7 @@ describe("Users Service Unit Tests", () => {
         password: "fail",
       },
     };
-    await postLogin(req, res);
+    await UserService.postLogin(req, res);
 
     // Valid Login - Valid credentials
     res = {
@@ -214,6 +214,6 @@ describe("Users Service Unit Tests", () => {
         password: "test",
       },
     };
-    await postLogin(req, res);
+    await UserService.postLogin(req, res);
   });
 });

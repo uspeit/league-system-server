@@ -5,12 +5,13 @@
   "main": "src/js/server.js",
   "scripts": {
     "init": "bash scripts/init.sh",
-    "start": "set NODE_ENV=dev && node src/js/server.js",
-    "test": "set NODE_ENV=test && node node_modules/jest/bin/jest.js",
-    "test:unit": "set NODE_ENV=test && node node_modules/jest/bin/jest.js --testPathPattern=src/tests/unit-tests",
-    "test:integration": "set NODE_ENV=test && node node_modules/jest/bin/jest.js --testPathPattern=src/tests/integration-tests",
-    "test:acceptance": "set NODE_ENV=test && node node_modules/jest/bin/jest.js --testPathPattern=src/tests/acceptance-tests",
-    "test:user": "set NODE_ENV=test && node node_modules/jest/bin/jest.js --testPathPattern=src/tests/unit-tests/.*/user.*\\.test\\.js"
+    "start": "NODE_ENV=dev node src/js/server.js",
+    "test": "NODE_ENV=test node node_modules/jest/bin/jest.js --runInBand",
+    "test:coverage": "NODE_ENV=test node node_modules/jest/bin/jest.js --collectCoverage --runInBand",
+    "test:unit": "NODE_ENV=test node node_modules/jest/bin/jest.js --testPathPattern=src/tests/unit-tests --runInBand",
+    "test:integration": "NODE_ENV=test node node_modules/jest/bin/jest.js --testPathPattern=src/tests/integration-tests --runInBand",
+    "test:acceptance": "NODE_ENV=test node node_modules/jest/bin/jest.js --testPathPattern=src/tests/acceptance-tests --runInBand",
+    "test:user": "NODE_ENV=test node node_modules/jest/bin/jest.js --testPathPattern=src/tests/unit-tests/.*/user.*\\.test\\.js --runInBand"
   },
   "repository": {
     "type": "git",

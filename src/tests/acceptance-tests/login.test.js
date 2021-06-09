@@ -8,7 +8,7 @@ import initDb from "../../js/data/init.js";
 
 describe("Login Use Case", () => {
   // Success
-  it("Login Success", async () => { 
+  it("Login Success", async () => {
     await initDb(true);
     const response = await request(app)
       .post("/users/login")
