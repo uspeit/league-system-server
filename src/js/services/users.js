@@ -5,25 +5,16 @@ import fs from "fs";
 
 const privateKey = fs.readFileSync("keys/private.pem");
 
-const userService = new UserService(privateKey);
-
-const router = express.Router();
-router.post("/login", userService.postLogin);
-router.post("/signup", userService.postSignup);
-
 export class UserService {
-  constructor(privateKey) {
-    this.privateKey = privateKey;
-  }
 
   // POST: /users/login
-  async postLogin(req, res) {
+  static async postLogin(req, res) {
     if (!req.body.username || !req.body.password)
       res.status(400).send({ err: "Please enter username and password" });
     else {
       let token = await User.login(req.body.username, req.body.password);
       if (token) {
-        token = jwt.sign(token, this.privateKey, {
+        token = jwt.sign(token, privateKey, {
           algorithm: "RS256",
         });
         res.status(200).send({
@@ -37,7 +28,7 @@ export class UserService {
   }
 
   // POST: /users/signup
-  async postSignup(req, res) {
+  static async postSignup(req, res) {
     if (req.body.masterPassword != "345")
       // Require password "345" as master password for easy management
       return res.status(400).send({
@@ -72,5 +63,9 @@ export class UserService {
       });
   }
 }
+
+const router = express.Router();
+router.post("/login", UserService.postLogin);
+router.post("/signup", UserService.postSignup);
 
 export default router;
