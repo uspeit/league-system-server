@@ -19,6 +19,7 @@ class GameData {
     static used_Stadium=['Doha','Turner','Turner','Sami Offer']
     static used_RefereeId=['12','13',null,'15']
     static used_Result=["0:0","0:0","0:0","0:0"]
+    static used_Events=[[],[],[],[]]
 
     constructor(gameId,Date,Home_team,Away_team,Stadium,refereeId,result,events) {
         this.gameId=gameId;
@@ -28,7 +29,11 @@ class GameData {
         this.Stadium=Stadium;
         this.RefereeId=refereeId;
         this.Result=result;
-        this.Events=events;
+        if(events){
+            this.Events=events;
+        }else{
+            this.Events=[]
+        }
     }
 
     save() {
@@ -41,6 +46,7 @@ class GameData {
             GameData.used_Stadium[index]=this.Stadium;
             GameData.used_RefereeId[index]=this.RefereeId;
             GameData.used_Result[index]=this.Result;
+            GameData.used_Events[index]=this.Events;
         }
         else{
             GameData.used_date.push(this.Date);
@@ -49,11 +55,13 @@ class GameData {
             GameData.used_Stadium.push(this.Stadium);
             GameData.used_RefereeId.push(this.RefereeId);
             GameData.used_Result.push(this.Result);
+            GameData.used_Events.pusth(this.Events);
+
         }
     }
 
     static async create(game) {
-        return new GameData(game.gameId,game.Date,game.Home_team,game.Away_team,game.Stadium,game.refereeId,game.result,game.events);
+        return new GameData(game.gameId,game.Date,game.Home_team,game.Away_team,game.Stadium,game.RefereeId,game.Result,game.Events);
     }
 
     static async findOne(query) {
@@ -64,7 +72,8 @@ class GameData {
                 return null;
             gameId = params.gameId - 1;
             return new GameData(params.gameId, GameData.used_date[gameId], GameData.used_Home_team[gameId],
-                GameData.used_Away_team[gameId], GameData.used_Stadium[gameId],GameData.used_RefereeId[gameId],GameData.used_Result[gameId]);
+                GameData.used_Away_team[gameId], GameData.used_Stadium[gameId],GameData.used_RefereeId[gameId],GameData.used_Result[gameId],
+                GameData.used_Events[gameId]);
         }
         return null
     }
@@ -81,7 +90,8 @@ class GameData {
                 let games=[];
                 index.forEach(gameId => {
                     games.push(new GameData(gameId+1, GameData.used_date[gameId], GameData.used_Home_team[gameId],
-                        GameData.used_Away_team[gameId], GameData.used_Stadium[gameId],GameData.used_RefereeId[gameId],GameData.used_Result[gameId]))
+                        GameData.used_Away_team[gameId], GameData.used_Stadium[gameId],GameData.used_RefereeId[gameId],GameData.used_Result[gameId],
+                        GameData.used_Events[gameId]))
                 })
                 return games;
             }
@@ -98,6 +108,7 @@ class GameData {
         this.used_Stadium=['Doha','Turner','Turner','Sami Offer']
         this.used_RefereeId=['12',null,'13','15']
         this.used_Result=["0:0","0:0","0:0","0:0"]
+        this.used_Events=[[],[],[],[]]
     }
 }
 

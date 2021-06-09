@@ -6,10 +6,10 @@ import Referee from '../models/referee.js';
 const router = express.Router();
 
 // Schedule game route
-router.post('/schedule', function (req, res) {
-  // TODO
-  res.status(200).send('Success');
-})
+//router.post('/schedule', function (req, res) {
+//  // TODO
+//  res.status(200).send('Success');
+//})
 
 router.put('/updateRefereeGame',async function (req,res) {
   if(req.user.role==='representative'){
