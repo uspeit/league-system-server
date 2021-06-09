@@ -7,10 +7,9 @@ const privateKey = fs.readFileSync("keys/private.pem");
 
 const router = express.Router();
 
-// Login route
-router.post("/login", async function (req, res) {
+export async function postLogin(req, res) {
   if (!req.body.username || !req.body.password)
-    res.status(400).send("Please enter username and password");
+    res.status(400).send({ err: "Please enter username and password" });
   else {
     let token = await User.login(req.body.username, req.body.password);
     if (token) {
@@ -25,30 +24,47 @@ router.post("/login", async function (req, res) {
         err: "Invalid Username or Password",
       });
   }
-});
+}
 
-// Sign up route
-router.post("/signup", async function (req, res) {
+export async function postSignup(req, res) {
   if (req.body.masterPassword != "345")
     // Require password "345" as master password for easy management
-    res.status(400).send({
+    return res.status(400).send({
       err: "Unauthorized",
     });
 
-    if (!req.body.username || !req.body.password || !req.body.email || !req.body.role || !req.body.idUserNum)
-        res.status(400).send({
-            err: 'Please enter username, password, email and role'
-        })
+  if (
+    !req.body.username ||
+    !req.body.password ||
+    !req.body.email ||
+    !req.body.role ||
+    !req.body.idUserNum
+  )
+    return res.status(400).send({
+      err: "Please enter username, password, email and role",
+    });
 
-    const err = await User.register(req.body.username, req.body.password,req.body.idUserNum, req.body.email, req.body.role)
-    if (err === null)
-        res.status(200).send({
-            err: null
-        });
-    else
-        res.status(400).send({
-            err: err
-        });
-})
+  const err = await User.register(
+    req.body.username,
+    req.body.password,
+    req.body.idUserNum,
+    req.body.email,
+    req.body.role
+  );
+  if (err === null)
+    return res.status(200).send({
+      err: null,
+    });
+  else
+    return res.status(400).send({
+      err: err,
+    });
+}
+
+// Login route
+router.post("/login", postLogin);
+
+// Sign up route
+router.post("/signup", postSignup);
 
 export default router;

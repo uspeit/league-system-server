@@ -6,7 +6,7 @@ import Game from '../models/game.js';
 const router = express.Router();
 
 // Add referee route
-router.post('/add', async function (req, res) {
+export async function postAddReferee(req, res) {
   if(req.user.role === 'representative'){
     if(!req.body.first_name || !req.body.last_name || !req.body.idNum || !req.body.phone || !req.body.email){
       res.status(400).send("One or more data is missing")  
@@ -22,9 +22,9 @@ router.post('/add', async function (req, res) {
   else{
     res.status(400).send("You can't register new referee")
   }
-})
+}
 
-router.put('/updateData',async function (req,res) {
+export async function putUpdateData(req,res) {
   if(req.user.role==='representative'){
     if(!req.body.idNum){
       res.status(400).send("Please enter id num referee.")
@@ -56,9 +56,9 @@ router.put('/updateData',async function (req,res) {
   else{
     res.status(400).send("You can't update data referee")
   }
-})
+}
 
-router.get('/getRefereeGames',async function (req,res) {
+export async function getRefereeGames(req,res) {
   if(req.user.role=='referee'){
     let referee=await Referee.getById(req.user.idUserNum);
     if(!referee){
@@ -72,10 +72,9 @@ router.get('/getRefereeGames',async function (req,res) {
   else{
     res.status(400).send("You can't get data from referee")
   }
-})
-
+}
   
-router.post('/addEventsGame',async function (req,res){
+export async function postAddEventsGame(req,res){
   if(req.user.role=='referee'){
     let referee=await Referee.getById(req.user.idUserNum);
     if(!referee){
@@ -98,9 +97,9 @@ router.post('/addEventsGame',async function (req,res){
   else{
     res.status(400).send("You can't add events game")
   }
-})
+}
 
-router.post('/updateGame',async function (req,res){
+export async function postUpdateGame(req,res){
   if(req.user.role=='referee'){
     let referee=await Referee.getById(req.user.idUserNum);
     if(!referee){
@@ -127,5 +126,13 @@ router.post('/updateGame',async function (req,res){
   else{
     res.status(400).send("You can't update events game")
   }
-})
+}
+
+router.post("/updateGame",postUpdateGame)
+router.post("/addReferee",postAddReferee)
+router.post("/addEventsGame",postAddEventsGame)
+router.get("/getRefereeGames",getRefereeGames)
+router.put("/updateData",putUpdateData)
+
+
 export default router

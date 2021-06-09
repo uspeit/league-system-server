@@ -11,7 +11,7 @@ const router = express.Router();
 //  res.status(200).send('Success');
 //})
 
-router.put('/updateRefereeGame',async function (req,res) {
+export async function putUpdateRefereeGame(req,res) {
   if(req.user.role==='representative'){
     if(!req.body.gameId){
       res.status(400).send("Please enter game id number.")
@@ -44,5 +44,7 @@ router.put('/updateRefereeGame',async function (req,res) {
   else{
     res.status(400).send("You can't update data game")
   }
-})
+}
+
+router.put("/updateRefereeGame",putUpdateRefereeGame)
 export default router

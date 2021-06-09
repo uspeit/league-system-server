@@ -87,7 +87,7 @@ export default class Referee {
     }
     
     static async addReferee(first_name,last_name,idNum,phone,email){
-        let referee= await this.getById(idNum);
+        let referee=await RefereeData.findOne({where: {idNum: idNum}});
         if(referee){
             return false
         }
