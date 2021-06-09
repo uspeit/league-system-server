@@ -2,13 +2,15 @@
   "name": "league-server",
   "version": "1.0.0",
   "description": "League management system",
-  "main": "index.js",
+  "main": "src/js/server.js",
   "scripts": {
-    "start": "export NODE_ENV=dev && node src/js/index.js",
-    "test": "export NODE_ENV=test && node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "test:unit": "export NODE_ENV=test && node --experimental-vm-modules node_modules/jest/bin/jest.js --testPathPattern=src/tests/unit-tests",
-    "test:integration": "export NODE_ENV=test && node --experimental-vm-modules node_modules/jest/bin/jest.js --testPathPattern=src/tests/integration",
-    "test:acceptance": "export NODE_ENV=test && node --experimental-vm-modules node_modules/jest/bin/jest.js --testPathPattern=src/tests/acceptance"
+    "init": "bash scripts/init.sh",
+    "start": "set NODE_ENV=dev && node src/js/server.js",
+    "test": "set NODE_ENV=test && node node_modules/jest/bin/jest.js",
+    "test:unit": "set NODE_ENV=test && node node_modules/jest/bin/jest.js --testPathPattern=src/tests/unit-tests",
+    "test:integration": "set NODE_ENV=test && node node_modules/jest/bin/jest.js --testPathPattern=src/tests/integration-tests",
+    "test:acceptance": "set NODE_ENV=test && node node_modules/jest/bin/jest.js --testPathPattern=src/tests/acceptance-tests",
+    "test:user": "set NODE_ENV=test && node node_modules/jest/bin/jest.js --testPathPattern=src/tests/unit-tests/.*/user.*\\.test\\.js"
   },
   "repository": {
     "type": "git",
@@ -22,12 +24,18 @@
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "sequelize": "^6.6.2",
-    "sqlite3": "^4.2.0"
+    "sqlite3": "^4.2.0",
+    "webpack": "^5.38.1"
   },
   "type": "module",
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.14.0",
+    "@babel/plugin-transform-runtime": "^7.14.3",
+    "@babel/polyfill": "^7.12.1",
+    "@babel/preset-env": "^7.14.4",
+    "@babel/runtime": "^7.14.0",
     "babel-jest": "^27.0.2",
-    "jest": "^27.0.3"
+    "jest": "^27.0.3",
+    "supertest": "^6.1.3"
   }
 }
