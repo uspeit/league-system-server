@@ -41,4 +41,4 @@ export async function syncReferees(addDefaults) {
   }
 }
 
-export default RefereeData;
+export {RefereeData};

@@ -113,4 +113,4 @@ class GameData {
 }
 
 
-export default GameData
+export {GameData}
