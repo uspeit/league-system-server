@@ -1,5 +1,5 @@
-import RefereeData from '../data/referee.js'
-import GameData from '../data/game.js'
+import { RefereeData} from '../data/referee.js'
+import { GameData} from '../data/game.js'
 
 export default class Referee {
     constructor(first_name,last_name,idNum, phone, email) {
@@ -17,38 +17,34 @@ export default class Referee {
                 return referee
             }
         }
-        return undefined
+        return null
     }
     
     
 
     static async updateData(first_name,last_name,idNum,phone,email) {
-        if(idNum){
-            return await RefereeData
-                .findOne({ where: {idNum:idNum} })
-                .then(function(referee) {
-                    // update
-                    if(referee){
-                        if(first_name){
-                            referee.first_name=first_name;
-                        }
-                        if(last_name){
-                            referee.last_name=last_name;
-                        }
-                        if(idNum){
-                            referee.idNum=idNum;
-                        }
-                        if(phone){
-                            referee.phone=phone;
-                        }
-                        if(email){
-                            referee.email=email;
-                        }
-                        referee.save()
-                    }
-                })
+        let referee=await RefereeData.findOne({ where: {idNum:idNum} })
+        // update
+        if(referee){
+            if(first_name){
+                referee.first_name=first_name;
+            }
+            if(last_name){
+                referee.last_name=last_name;
+            }
+            if(idNum){
+                referee.idNum=idNum;
+            }
+            if(phone){
+                referee.phone=phone;
+            }
+            if(email){
+                referee.email=email;
+            }
+            referee.save()
+            return referee
         }
-        return undefined
+        return null
     }
 
 
@@ -72,28 +68,27 @@ export default class Referee {
     }*/
     static async addEventsGame(idNum,gameId,event){
         if(event && gameId){
-            return await GameData
-                .findOne({where: [{gameId:gameId,RefereeId:idNum}]})
-                .then(function(game) {
+            let game=await GameData.findOne({where:{gameId:gameId}})
                     // update
-                    if(game.RefereeId===idNum){
-                        if(event){
-                            game.Events.push(event);
-                        }
-                        game.save()
-                    }
-                })
+            if(game.RefereeId===idNum){
+                if(event){
+                    game.Events.push(event);
+                }
+                game.save()
+                return null
+            }
         }
+        return undefined
     }
     
     static async addReferee(first_name,last_name,idNum,phone,email){
-        let referee= await this.getById(idNum);
-        if(referee){
-            return false
+        let referee=await RefereeData.findOne({where: {idNum: idNum}});
+        if(referee!==null){
+            return 'Failed referee user already exists'
         }
         const newReferee=new Referee(first_name,last_name,idNum,phone,email)
         let refereeData = await RefereeData.create(newReferee);
         await refereeData.save()
-        return true;
+        return undefined;
     }   
 }

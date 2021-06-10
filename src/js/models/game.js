@@ -1,5 +1,5 @@
-import GameData from "../data/game.js";
-import RefereeData from "../data/referee.js";
+import { GameData } from "../data/game.js";
+import { RefereeData } from "../data/referee.js";
 
 export default class Game {
 
@@ -19,35 +19,30 @@ export default class Game {
     }
 
     static async updateData(gameId,Date,Stadium,RefereeId,Result,Events) {
-        if(gameId){
-            return await GameData
-            .findOne({where: {gameId: gameId} })
-            .then(function(game) {
-                // update
-                if(game){
-                    if(Date){
-                        game.Date=Date;
-                    }
-                    if(Stadium){
-                        game.Stadium=Stadium;
-                    }
-                    if(RefereeId){
-                        game.RefereeId=RefereeId;
-                    }
-                    if(Result){
-                        game.Result=Result;
-                    }
-                    if(Events){
-                        Events.forEach(event => {
-                            game.Events.push(event)
-                        });
-                    }
-                    game.save()
-                    return true
-                }
-            })
+        let game = await GameData.findOne({where: {gameId: gameId} })
+        // update
+        if(game){
+            if(Date){
+                game.Date=Date;
+            }
+            if(Stadium){
+                game.Stadium=Stadium;
+            }
+            if(RefereeId){
+                game.RefereeId=RefereeId;
+            }
+            if(Result){
+                game.Result=Result;
+            }
+            if(Events){
+                Events.forEach(event => {
+                    game.Events.push(event)
+                });
+            }
+            game.save()
+            return game
         }
-        return false
+        return null
     }
     
     static getById(gameId) {

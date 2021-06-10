@@ -1,11 +1,11 @@
-import RefereeData from '../../../js/data/referee.js'
+import {RefereeData} from '../../../js/data/referee.js'
 import {
     checkUserCredentials,
     UserData
 } from '../../../js/data/user.js'
 import Referee from '../../../js/models/referee.js'
 import Game from '../../../js/models/game.js'
-import GameData from '../../../js/data/game.js'
+import { GameData } from '../../../js/data/game.js'
 
 import {
     expect,

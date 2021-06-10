@@ -1,9 +1,9 @@
 import { UserData } from '../../../js/data/user.js'
 import User from '../../../js/models/user.js'
-import RefereeData from '../../../js/data/referee.js'
+import {RefereeData} from '../../../js/data/referee.js'
 import Referee from '../../../js/models/referee.js'
 import Game from '../../../js/models/game.js'
-import GameData from '../../../js/data/game.js'
+import {GameData} from '../../../js/data/game.js'
 
 import {
     expect,
@@ -76,7 +76,7 @@ test('referee - add', async () => {
 
     error = await Referee.addReferee('sa','ah',null,'054','sa@')
     expect(error)
-        .toBe(true)
+        .toBe(undefined)
 });
 
 // Referee - Get by ID
@@ -104,7 +104,7 @@ test('Referee - Get by ID', async() => {
 
     referee = await Referee.getById(null)
     expect(referee)
-        .toBe(undefined);
+        .toBe(null);
 });
 
 
@@ -165,7 +165,7 @@ test('Referee - Update Data Referee', async () => {
 
     error = await Referee.updateData('dd','dd',null,'123','dd@')
     expect(error)
-        .toBe(undefined)
+        .toBe(null)
 
 });
 
@@ -251,11 +251,11 @@ test('Referee - Update Game Data', async () => {
     
     error = await Game.updateData(5,null,null,null,null,null)
     expect(error)
-        .toBe(undefined)
+        .toBe(null)
     
     error = await Game.updateData(null,new Date(2021,8,11,19,0),'Tel aviv','12',"1:0",[])
     expect(error)
-        .toBe(false)
+        .toBe(null)
 
 });
 
