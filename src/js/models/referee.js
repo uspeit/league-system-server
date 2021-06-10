@@ -69,26 +69,30 @@ export default class Referee {
     static async addEventsGame(idNum,gameId,event){
         if(event && gameId){
             let game=await GameData.findOne({where:{gameId:gameId}})
-                    // update
-            if(game.RefereeId===idNum){
-                if(event){
-                    game.Events.push(event);
+            if(game){
+            // update
+                if(game.RefereeId===idNum){
+                    if(event){
+                        game.Events.push(event);
+                    }
+                    game.save()
+                    return null
                 }
-                game.save()
-                return null
-            }
+            }return "Game not found!"
         }
         return undefined
     }
     
     static async addReferee(first_name,last_name,idNum,phone,email){
-        let referee=await RefereeData.findOne({where: {idNum: idNum}});
-        if(referee!==null){
-            return 'Failed referee user already exists'
-        }
-        const newReferee=new Referee(first_name,last_name,idNum,phone,email)
-        let refereeData = await RefereeData.create(newReferee);
-        await refereeData.save()
-        return undefined;
+        if(idNum){
+            let referee=await RefereeData.findOne({where: {idNum: idNum}});
+            if(referee!==null){
+                return 'Failed referee user already exists'
+            }
+            const newReferee=new Referee(first_name,last_name,idNum,phone,email)
+            let refereeData = await RefereeData.create(newReferee);
+            await refereeData.save()
+            return undefined;
+        }return 'One or more data is missing'
     }   
 }
