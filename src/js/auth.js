@@ -3,6 +3,10 @@ import passportJwt from "passport-jwt";
 import User from "./models/user.js";
 import fs from "fs";
 
+/**
+ * This file defines the authentication strategy for Passport.js
+ */
+
 const publicKey = fs.readFileSync("keys/public.pem");
 
 var JwtStrategy = passportJwt.Strategy,

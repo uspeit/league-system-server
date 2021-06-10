@@ -3,7 +3,10 @@ import usersController from "./services/users.js";
 import gamesController from "./services/games.js";
 import refereesController from "./services/referees.js";
 import passport from "./auth.js";
-import initDb from "./data/init.js";
+
+/**
+ * This file defines and configures the Express application
+ */
 
 const app = express();
 
@@ -31,13 +34,5 @@ app.use(
   }),
   refereesController
 );
-
-/* istanbul ignore next */
-if (process.env.NODE_ENV === "dev") {
-  (async () => {
-    await initDb();
-    console.log(`DB syncronized`);
-  })();
-}
 
 export default app;
