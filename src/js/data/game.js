@@ -48,4 +48,4 @@ export async function syncGames(addDefaults) {
   }
 }
 
-export default GameData;
+export {GameData};

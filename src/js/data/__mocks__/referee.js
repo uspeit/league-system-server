@@ -68,4 +68,4 @@ class RefereeData {
     }
 }
 
-export default RefereeData
+export {RefereeData}
