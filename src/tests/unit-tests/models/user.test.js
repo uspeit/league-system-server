@@ -71,6 +71,16 @@ describe("User Model Unit Tests", () => {
       "player"
     );
     expect(error).not.toBe(null);
+
+    // Invalid role
+    error = await User.register(
+      "bbbbbbb",
+      "asdzxc",
+      123456439,
+      "bbbbbbbbb@mail.com",
+      "invalid"
+    );
+    expect(error).not.toBe(null);
   });
 
   // User - Login

@@ -58,14 +58,4 @@ export default class User {
     else return null;
   }
 
-  // Static helper methods
-  static async getAll() {
-    const users = await UserData.findAll();
-    console.log(users);
-    return users.map(fromData);
-  }
-
-  static fromData(userData) {
-    return new User(userData.username, userData.password, userData.email);
-  }
 }
