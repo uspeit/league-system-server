@@ -16,7 +16,7 @@ export class GameService {
           res.status(400).send({err:"Game id doesn't exist"})
         }
         else{
-          await Game.updateData(req.body.gameId,req.body.Date,req.body.Stadium,req.body.RefereeId)
+          await Game.updateData(req.body.gameId,req.body.Date,req.body.Stadium,req.body.RefereeId,req.body.Result,req.body.Events)
           res.status(200).send("Success")
         }
       }
@@ -27,7 +27,7 @@ export class GameService {
         res.status(400).send({err:"You can't update data game"})
       }
       else{
-        Game.updateData(req.body.Result,req.body.Events)
+        await Game.updateData(req.body.gameId,req.body.Date,req.body.Stadium,req.body.RefereeId,req.body.Result,req.body.Events)
         res.status(200).send("Success")
       }
     }

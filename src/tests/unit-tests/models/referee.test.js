@@ -76,7 +76,7 @@ test('referee - add', async () => {
 
     error = await Referee.addReferee('sa','ah',null,'054','sa@')
     expect(error)
-        .toBe(undefined)
+        .toBe('One or more data is missing')
 });
 
 // Referee - Get by ID
@@ -325,5 +325,12 @@ test('Referee - add Event to Game', async () => {
     game = await Game.getById(2)
     expect(game.Events.length)
         .toBe(0)
+
+    error = await Referee.addEventsGame(
+      "15",
+      6,
+      "30.7.2021 19:40 85 ,Red cart Loai Taha"
+    );
+    expect(error).toBe("Game not found!")
 
 })

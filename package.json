@@ -6,7 +6,7 @@
   "scripts": {
     "init": "bash scripts/init.sh",
     "start": "NODE_ENV=dev node src/js/server.js",
-    "test": "NODE_ENV=test node node_modules/jest/bin/jest.js --runInBand",
+    "test": "NODE_ENV=test node node_modules/jest/bin/jest.js --runInBand --verbose --silent",
     "test:coverage": "NODE_ENV=test node node_modules/jest/bin/jest.js --collectCoverage --runInBand",
     "test:unit": "NODE_ENV=test node node_modules/jest/bin/jest.js --testPathPattern=src/tests/unit-tests --runInBand",
     "test:integration": "NODE_ENV=test node node_modules/jest/bin/jest.js --testPathPattern=src/tests/integration-tests --runInBand",
